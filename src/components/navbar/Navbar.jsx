@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
-import logo from '../../assets/logo.png'
+import logo from '../../assets/images/logo.png'
 // import { AuthContext } from "../../provider/AuthProvider";
 // import { signOut } from "firebase/auth";
 // import auth from "../../firebase/firebase.config";
@@ -41,7 +41,7 @@ const Navbar = () => {
         onClick={hamburger}
         to="/"
         style={({ isActive }) => ({
-          color: isActive ? "#FF204E" : "#0111",
+          color: isActive ? "#FF204E" : "#00224D",
           fontSize:'18px',
           background: "transparent",
         })}>Home</NavLink>
@@ -80,7 +80,7 @@ const Navbar = () => {
           <div className="flex items-center lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
 
             {<div className={`md:block space-x-3 gap-4 hidden`}>
-                <Link to="/login">
+                <Link to="/register">
                   <button
                     type="button"
                     className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
