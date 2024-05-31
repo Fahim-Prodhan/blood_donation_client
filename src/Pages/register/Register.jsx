@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 // import { updateProfile } from "firebase/auth";
 import { Helmet } from "react-helmet";
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -16,9 +16,13 @@ import { motion } from "framer-motion";
 const Register = () => {
     // const { createUser, setReload } = useContext(AuthContext)
     const navigate = useNavigate()
-
+    
+    const { districts, upazilas } = useLoaderData();
     const [eye, setEye] = useState(false)
     const [bloodGroup, setBloodGroup] = useState('A+');
+    const [district, selectDistrict] = useState('');
+    const [upazila, selectUpazila] = useState('');
+
 
 
     const togglePassword = () => {
@@ -81,7 +85,7 @@ const Register = () => {
                             <img className='lg:w-[40%] w-1/2' src={logo} alt="" />
                         </div>
                         <div >
-                            <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center lg:text-left'>Create your Volunnet account</h1>
+                            <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center lg:text-left'>Create your BloodBridge account</h1>
                             <p className='flex items-center gap-1 my-4 lg:text-xl'><span className='text-2xl text-[#68D2E8]'><TiTick /></span>Give blood, give life. Your donation can be someone's salvation</p>
                             <p className='flex items-center gap-1 my-4 lg:text-xl'><span className='text-2xl text-[#68D2E8]'><TiTick /></span>Your blood is precious: Donate, save a life, make a difference.</p>
                             <p className='flex items-center gap-1 my-4 lg:text-xl'><span className='text-2xl text-[#68D2E8]'><TiTick /></span>Donate blood, save lives. Be a hero today!</p>
@@ -93,20 +97,20 @@ const Register = () => {
                           
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Email</span>
+                                        <span className="label-text font-bold">Email</span>
                                     </label>
                                     <input name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
                                 </div>
                                 <div className="form-control">
 
                                     <label className="label">
-                                        <span className="label-text">Name</span>
+                                        <span className="label-text font-bold">Name</span>
                                     </label>
                                     <input name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Upload Avatar</span>
+                                        <span className="label-text font-bold">Upload Avatar</span>
                                     </label>
                                     <label for="fileInput" className="cursor-pointer h-12 file-label flex items-center gap-1 bg-gray-200 rounded-lg px-2 w-full"><MdDriveFolderUpload /> Profile Photo</label>
                                     <input type="file" id="fileInput" name="fileInput" className="hidden" />
@@ -136,10 +140,12 @@ const Register = () => {
                                     </label>
                                     <select
                                         className="select select-bordered w-full max-w-xs"
-                                        value={bloodGroup}
-                                        onChange={(e) => setBloodGroup(e.target.value)}
+                                        value={district}
+                                        onChange={(e) => selectDistrict(e.target.value)}
                                     >
-                                        <option value="user">A+</option>
+                                        {
+                                            districts.map(d=> <option value={d.name} key={d.id}>{d.name}</option>)
+                                        }
                                     </select>
                                 </div>
                                 <div className="form-control">
@@ -148,15 +154,17 @@ const Register = () => {
                                     </label>
                                     <select
                                         className="select select-bordered w-full max-w-xs"
-                                        value={bloodGroup}
-                                        onChange={(e) => setBloodGroup(e.target.value)}
+                                        value={upazila}
+                                        onChange={(e) => selectUpazila(e.target.value)}
                                     >
-                                        <option value="user">A+</option>
+                                        {
+                                            upazilas.map(u=> <option value={u.name} key={u.id}>{u.name}</option>)
+                                        }
                                     </select>
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Password</span>
+                                        <span className="label-text font-bold">Password</span>
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 label">
                                         <input name="password" type={eye ? "text" : "password"} className="grow" placeholder="Password" />
@@ -165,7 +173,7 @@ const Register = () => {
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Confirm Password</span>
+                                        <span className="label-text font-bold">Confirm Password</span>
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 label">
                                         <input name="password" type={eye ? "text" : "password"} className="grow" placeholder="Password" />

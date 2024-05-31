@@ -127,7 +127,7 @@ const Login = () => {
                             <img className='lg:w-[40%] w-1/2' src={logo} alt="" />
                         </div>
                         <div >
-                            <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center lg:text-left'>Login your Volunnet account</h1>
+                            <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center lg:text-left'>Login your BloodBridge account</h1>
                             <p className='flex items-center gap-1 my-4 lg:text-xl'><span className='text-2xl text-[#68D2E8]'><TiTick /></span>Give blood, give life. Your donation can be someone's salvation</p>
                             <p className='flex items-center gap-1 my-4 lg:text-xl'><span className='text-2xl text-[#68D2E8]'><TiTick /></span>Your blood is precious: Donate, save a life, make a difference.</p>
                             <p className='flex items-center gap-1 my-4 lg:text-xl'><span className='text-2xl text-[#68D2E8]'><TiTick /></span>Donate blood, save lives. Be a hero today!</p>
