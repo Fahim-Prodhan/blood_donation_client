@@ -80,10 +80,10 @@ const Navbar = () => {
           <div className="flex items-center lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
 
             {<div className={`md:block space-x-3 gap-4 hidden`}>
-                <Link to="/register">
+                <Link to="/login">
                   <button
                     type="button"
-                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                    className="text-[#fff] bg-[#00224D] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
                   >
                     Login
                   </button>
