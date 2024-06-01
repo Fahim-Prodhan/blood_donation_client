@@ -41,6 +41,7 @@ const Register = () => {
         const fileInput = form.fileInput;
         const file = fileInput.files[0];
 
+
         if(password !== confirmPassword){
             toast.error('password not matched')
             return
@@ -60,8 +61,13 @@ const Register = () => {
             district:district,
             upazila:upazila,
             image:imgURL,
+            IsActive:'active',
             role:'donor',
         }
+
+
+
+       
 
         if (res.data.success) {
             // Add your user creation logic here
@@ -159,7 +165,7 @@ const Register = () => {
                                     onChange={(e) => setBloodGroup(e.target.value)}
                                     required
                                 >
-                                    <option disabled selected>Select your Blood Group</option>
+                                    <option disabled selected value=''>Select your Blood Group</option>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
                                     <option value="B+">B+</option>
@@ -202,7 +208,7 @@ const Register = () => {
                                     <span className="label-text font-bold">Password</span>
                                 </label>
                                 <label className="input input-bordered flex items-center gap-2 label">
-                                    <input name="password" type={eye ? "text" : "password"} className="grow" placeholder="Password" />
+                                    <input required name="password" type={eye ? "text" : "password"} className="grow" placeholder="Password" />
                                     <span onClick={togglePassword} className="text-xl -ml-10 md:-ml-0">{eye ? <MdOutlineRemoveRedEye /> : <FaRegEyeSlash />}</span>
                                 </label>
                             </div>
@@ -211,7 +217,7 @@ const Register = () => {
                                     <span className="label-text font-bold">Confirm Password</span>
                                 </label>
                                 <label className="input input-bordered flex items-center gap-2 label">
-                                    <input name="confirm_password" type="password" className="grow" placeholder="Password" />
+                                    <input required name="confirm_password" type="password" className="grow" placeholder="Password" />
                                 </label>
                             </div>
                             <div>
@@ -219,6 +225,7 @@ const Register = () => {
                                     <p className="pt-2 text-sm">Already have an account? <span className="text-blue-400"><Link to='/login'>Login</Link></span></p>
                                 </label>
                             </div>
+                            
                             <div className="form-control mt-6 md:col-span-2">
                                 <button type="submit" className="btn bg-[#FF6D60] text-white">Create an account</button>
                             </div>

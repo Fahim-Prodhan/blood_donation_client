@@ -11,15 +11,15 @@ import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
   const [hamburger, setHamburger] = useState(false);
-  const { user, logout} = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
-    const navigate = useNavigate()
-  const signOut = ()=>{
+  const navigate = useNavigate()
+  const signOut = () => {
     logout()
-    .then(()=>{
+      .then(() => {
         toast.success('logout successful')
         navigate('/login')
-    })
+      })
   }
 
   useEffect(() => {
@@ -50,13 +50,13 @@ const Navbar = () => {
         to="/"
         style={({ isActive }) => ({
           color: isActive ? "#FF204E" : "#00224D",
-          fontSize:'18px',
+          fontSize: '18px',
           background: "transparent",
         })}>Home</NavLink>
       </li>
       <li>
         <details>
-          <summary style={{ color: '#00224D', fontSize:'18px' }}>My Profile</summary>
+          <summary style={{ color: '#00224D', fontSize: '18px' }}>My Profile</summary>
           <ul className="p-2 w-60">
             <li><Link to='/addPost'>Dashboard</Link></li>
             <li><Link to='/manage-post'>My Profile</Link></li>
@@ -87,40 +87,43 @@ const Navbar = () => {
           {/* Right side Buttons */}
           <div className="flex items-center lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
 
-            { !user && <div className={`md:block space-x-3 gap-4 hidden`}>
-                <Link to="/login">
-                  <button
-                    type="button"
-                    className="text-[#fff] bg-[#00224D] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
-                  >
-                    Login
-                  </button>
-                </Link>
-              </div>
+            {!user && <div className={`md:block space-x-3 gap-4 hidden`}>
+              <Link to="/login">
+                <button
+                  type="button"
+                  className="text-[#fff] bg-[#00224D] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                >
+                  Login
+                </button>
+              </Link>
+            </div>
             }
 
-            { user &&
-               <div
+            {user &&
+              <div
                 className={`flex items-center space-x-3 gap-4`}
               >
-                {
-                   <div className="tooltip tooltip-left avatar cursor-pointer" data-tooltip-id="my-tooltip" data-tooltip-content={''}>
-                    <div className="w-12 rounded-full">
-                      <img src={user?.photoURL} />
+
+                <div className="dropdown ">
+                  <div tabIndex={0} role="button" className="m-1">
+                    <div className="tooltip tooltip-left avatar cursor-pointer" data-tooltip-id="my-tooltip" data-tooltip-content={''}>
+                      <div className="w-12 rounded-full">
+                        <img src={user?.photoURL} />
+                      </div>
                     </div>
                   </div>
-                }
-                <Link
-                  className="hidden md:flex"
-                  onClick={()=>signOut()}
-                >
-                  <button
-                    type="button"
-                    className="text-white bg-[#FF6D60] hover:bg-[#ff988f] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
-                  >
-                    Logout
-                  </button>
-                </Link>
+                  <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <li><a>Dashboard</a></li>
+                    <li>
+                      <Link className="hidden md:flex"
+                        onClick={() => signOut()}>
+                        <button type="button" className="text-white bg-[#FF6D60] hover:bg-[#ff988f] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center">Logout</button>
+                      </Link></li>
+                    
+                  </ul>
+                </div>
+
+
               </div>
             }
 
@@ -190,7 +193,7 @@ const Navbar = () => {
           <ul className="font-semibold space-y-3 mt-6 ">{links}</ul>
 
           {
-            !user &&   <div className={`md:hidden flex gap-4 mt-6`}>
+            !user && <div className={`md:hidden flex gap-4 mt-6`}>
               <Link onClick={handleHamburger} to="/login">
                 <button
                   type="button"
@@ -203,12 +206,12 @@ const Navbar = () => {
             </div>
           }
           {
-             user && <div className={`md:hidden flex gap-4 mt-6`}>
+            user && <div className={`md:hidden flex gap-4 mt-6`}>
               <Link
                 onClick={() => {
                   handleHamburger();
                 }}
-              
+
               >
                 <button
                   type="button"
