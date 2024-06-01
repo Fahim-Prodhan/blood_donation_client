@@ -1,23 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from '../../assets/images/logo.png'
-// import { AuthContext } from "../../provider/AuthProvider";
-// import { signOut } from "firebase/auth";
-// import auth from "../../firebase/firebase.config";
-// import toast from "react-hot-toast";
+import { AuthContext } from "../../provider/AuthProvider";
+import { signOut } from "firebase/auth";
+import auth from "../../firebase/firebase.config";
+import toast from "react-hot-toast";
 import 'react-tooltip/dist/react-tooltip.css'
 import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
   const [hamburger, setHamburger] = useState(false);
-//   const { user,setLoading } = useContext(AuthContext);
+  const { user, logout} = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
+    const navigate = useNavigate()
+  const signOut = ()=>{
+    logout()
+    .then(()=>{
+        toast.success('logout successful')
+        navigate('/login')
+    })
+  }
 
   useEffect(() => {
     localStorage.setItem('theme', theme)
     const localTheme = localStorage.getItem("theme")
-    console.log(localTheme);
+    // console.log(localTheme);
     document.querySelector('html').setAttribute('data-theme', localTheme)
   }, [theme])
 
@@ -79,7 +87,7 @@ const Navbar = () => {
           {/* Right side Buttons */}
           <div className="flex items-center lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
 
-            {<div className={`md:block space-x-3 gap-4 hidden`}>
+            { !user && <div className={`md:block space-x-3 gap-4 hidden`}>
                 <Link to="/login">
                   <button
                     type="button"
@@ -91,21 +99,20 @@ const Navbar = () => {
               </div>
             }
 
-            {
+            { user &&
                <div
                 className={`flex items-center space-x-3 gap-4`}
               >
                 {
                    <div className="tooltip tooltip-left avatar cursor-pointer" data-tooltip-id="my-tooltip" data-tooltip-content={''}>
                     <div className="w-12 rounded-full">
-                      <img src={''} />
+                      <img src={user?.photoURL} />
                     </div>
                   </div>
                 }
                 <Link
                   className="hidden md:flex"
-                  onClick={''}
-                  to="/login"
+                  onClick={()=>signOut()}
                 >
                   <button
                     type="button"
@@ -183,7 +190,7 @@ const Navbar = () => {
           <ul className="font-semibold space-y-3 mt-6 ">{links}</ul>
 
           {
-            ! <div className={`md:hidden flex gap-4 mt-6`}>
+            !user &&   <div className={`md:hidden flex gap-4 mt-6`}>
               <Link onClick={handleHamburger} to="/login">
                 <button
                   type="button"
@@ -196,12 +203,12 @@ const Navbar = () => {
             </div>
           }
           {
-             <div className={`md:hidden flex gap-4 mt-6`}>
+             user && <div className={`md:hidden flex gap-4 mt-6`}>
               <Link
                 onClick={() => {
                   handleHamburger();
                 }}
-                to="/login"
+              
               >
                 <button
                   type="button"

@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import toast from "react-hot-toast";
 import axios from "axios";
 import baseUrl from "../services/helper";
+
 
 
 
@@ -65,6 +66,11 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth,email,password);
     }
 
+    const logout = ()=>{
+        setLoading(true)
+        return signOut(auth)
+    }
+
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, currentUser=>{
             // const userEmail = currentUser?.email || user?.email
@@ -100,7 +106,8 @@ const AuthProvider = ({ children }) => {
         signInUser,
         loading,
         setLoading,
-        setReload
+        setReload,
+        logout
     }
 
     return (

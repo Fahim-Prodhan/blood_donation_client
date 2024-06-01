@@ -1,24 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import toast from "react-hot-toast";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-// import { AuthContext } from "../../provider/AuthProvider";
-// import auth from "../../firebase/firebase.config";
+import { AuthContext } from "../../provider/AuthProvider";
+import auth from "../../firebase/firebase.config";
 import logo from '../../assets/images/logo.png'
 import { TiTick } from "react-icons/ti";
 import { motion } from "framer-motion";
 
 
 const Login = () => {
-    // const { signInUser } = useContext(AuthContext)
-    // const googleProvider = new GoogleAuthProvider();
-    // const githubProvider = new GithubAuthProvider();
+    const { signInUser } = useContext(AuthContext)
     const location = useLocation();
     const navigate = useNavigate()
 
@@ -29,59 +25,6 @@ const Login = () => {
     }
 
 
-    const handleGoogleSignIn = () => {
-        signInWithPopup(auth, googleProvider)
-            .then(() => {
-                // console.log(res.user);
-                toast.success("Login Successful", {
-                    position: "top-right",
-                    duration: 5000,
-                    style: { width: '200px', height: '70px' },
-                });
-                if (location.state == '/update-profile') {
-                    navigate('/')
-                } else {
-                    navigate(location.state ? `${location.state}` : '/')
-                }
-
-                // console.log(location.state);
-
-            })
-            .catch(error => {
-                toast.error("Something is went wrong", {
-                    position: "top-right",
-                    duration: 5000,
-                    style: { width: '200px', height: '70px' },
-                });
-                console.log(error);
-            })
-    }
-
-    const handleGithubSignIn = () => {
-        signInWithPopup(auth, githubProvider)
-            .then(() => {
-                // console.log(res.user);
-                toast.success("Login Successful", {
-                    position: "top-right",
-                    duration: 5000,
-                    style: { width: '250px', height: '70px' },
-                });
-                if (location.state == '/update-profile') {
-                    navigate('/')
-                } else {
-                    navigate(location.state ? `${location.state}` : '/')
-                }
-            })
-            .catch(error => {
-                toast.error("Something is went wrong", {
-                    position: "top-right",
-                    duration: 5000,
-                    style: { width: '250px', height: '70px' },
-                });
-
-                console.log(error);
-            })
-    }
 
 
     const handleSingInUser = (e) => {
@@ -98,11 +41,7 @@ const Login = () => {
                     duration: 5000,
                     style: { width: '250px', height: '70px' },
                 });
-                if (location.state == '/update-profile') {
-                    navigate('/')
-                } else {
-                    navigate(location.state ? `${location.state}` : '/')
-                }
+                    navigate(location.state ? `${location.state}` : '/')     
             })
             .catch(error => {
                 toast.error("Something is went wrong", {
@@ -155,11 +94,6 @@ const Login = () => {
                                 <div className="form-control mt-6">
                                     <button type="submit" className="btn bg-[#FF6D60] text-white">Login</button>
                                 </div>
-                                {/* <div className="divider"> sign in with</div> */}
-                                {/* <div className="flex justify-center gap-6">
-                                    <button type="button" onClick={handleGoogleSignIn} className="text-4xl"><FcGoogle /></button>
-                                    <button type="button" onClick={handleGithubSignIn} className="text-4xl"><FaGithub /></button>
-                                </div> */}
                             </div>
 
                         </form>
