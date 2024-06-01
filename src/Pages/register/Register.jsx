@@ -5,7 +5,7 @@ import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { Helmet } from "react-helmet";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { MdDriveFolderUpload, MdOutlineRemoveRedEye } from "react-icons/md";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../provider/AuthProvider";
 import { TiTick } from "react-icons/ti";
@@ -37,8 +37,14 @@ const Register = () => {
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
+        const confirmPassword = form.confirm_password.value;
         const fileInput = form.fileInput;
         const file = fileInput.files[0];
+
+        if(password !== confirmPassword){
+            toast.error('password not matched')
+            return
+        }
 
         const res = await axiosPublic.post(image_hosting_api, { image: file }, {
             headers: {
@@ -46,6 +52,16 @@ const Register = () => {
             }
         })
         const imgURL = res.data.data.display_url
+
+        const formData = {
+            name: name,
+            email:email,
+            bloodGroup: bloodGroup,
+            district:district,
+            upazila:upazila,
+            image:imgURL,
+            role:'donor',
+        }
 
         if (res.data.success) {
             // Add your user creation logic here
@@ -66,6 +82,12 @@ const Register = () => {
                         duration: 5000,
                         style: { width: '250px', height: '70px' },
                     });
+
+                    axiosPublic.post(`/users`,formData)
+                    .then(res=>{
+                        console.log(res.data);
+                    })
+
                     setTimeout(() => {
                         navigate('/')
                     }, 1600);
@@ -80,6 +102,7 @@ const Register = () => {
                     console.log(error);
                 });
         }
+
 
 
     };
