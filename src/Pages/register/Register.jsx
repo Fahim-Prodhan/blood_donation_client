@@ -23,9 +23,9 @@ const Register = () => {
     const axiosPublic = useAxiosPublic();
     const { districts, upazilas } = useLoaderData();
     const [eye, setEye] = useState(false);
-    const [bloodGroup, setBloodGroup] = useState(null);
-    const [district, selectDistrict] = useState(null);
-    const [upazila, selectUpazila] = useState(null);
+    const [bloodGroup, setBloodGroup] = useState('');
+    const [district, selectDistrict] = useState('');
+    const [upazila, selectUpazila] = useState('');
 
     const togglePassword = () => {
         setEye(!eye);
@@ -185,7 +185,7 @@ const Register = () => {
                                     value={district}
                                     onChange={(e) => selectDistrict(e.target.value)}
                                 >
-                                    <option disabled selected>Select your District</option>
+                                    <option disabled selected value="">Select your District</option>
                                     {districts.map(d => <option value={d.name} key={d.id}>{d.name}</option>)}
                                 </select>
                             </div>
@@ -198,7 +198,7 @@ const Register = () => {
                                     value={upazila}
                                     onChange={(e) => selectUpazila(e.target.value)}
                                 >
-                                    <option disabled selected>Select your Upazila</option>
+                                    <option disabled selected value="">Select your Upazila</option>
 
                                     {upazilas.map(u => <option value={u.name} key={u.id}>{u.name}</option>)}
                                 </select>

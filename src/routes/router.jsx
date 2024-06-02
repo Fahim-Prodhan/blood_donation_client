@@ -47,7 +47,21 @@ const router = createBrowserRouter([
         children:[
             {
                 path:'profile',
-                element:<Profile></Profile>
+                element:<Profile></Profile>,
+                loader: async () => {
+                    const [districtsResponse, upazilasResponse] = await Promise.all([
+                        fetch(`${mainUrl}/districts`),
+                        fetch(`${mainUrl}/upazilas`)
+                    ]);
+            
+                    const districts = await districtsResponse.json();
+                    const upazilas = await upazilasResponse.json();
+            
+                    return {
+                        districts,
+                        upazilas
+                    };
+                }
             }
         ]
     }
