@@ -13,6 +13,7 @@ const Navbar = () => {
   const [hamburger, setHamburger] = useState(false);
   const { user, logout } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
+  const [color, setColor] = useState('#00224D')
   const navigate = useNavigate()
   const signOut = () => {
     logout()
@@ -27,6 +28,11 @@ const Navbar = () => {
     const localTheme = localStorage.getItem("theme")
     // console.log(localTheme);
     document.querySelector('html').setAttribute('data-theme', localTheme)
+    if (theme === 'dark') {
+      setColor("#ffff")
+    } else {
+      setColor("#00224D")
+    }
   }, [theme])
 
   const handleThemeToggle = (e) => {
@@ -36,7 +42,6 @@ const Navbar = () => {
       setTheme('light')
     }
   }
-
 
 
   const handleHamburger = () => {
@@ -49,14 +54,14 @@ const Navbar = () => {
         onClick={hamburger}
         to="/"
         style={({ isActive }) => ({
-          color: isActive ? "#FF204E" : "#00224D",
+          color: isActive ? "#FF204E" : `${color}`,
           fontSize: '18px',
           background: "transparent",
         })}>Home</NavLink>
       </li>
       <li>
         <details>
-          <summary style={{ color: '#00224D', fontSize: '18px' }}>My Profile</summary>
+          <summary style={{ color: `${color}`, fontSize: '18px' }}>My Profile</summary>
           <ul className="p-2 w-60">
             <li><Link to='/addPost'>Dashboard</Link></li>
             <li><Link to='/manage-post'>My Profile</Link></li>
@@ -71,7 +76,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="bg-[#eee] shadow-lg">
+      <nav className={`bg-[#eee] ${theme === 'dark' && 'dark:bg-[#313b47]'} shadow-lg`}>
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Left side website name and logo */}
           <Link
@@ -104,7 +109,7 @@ const Navbar = () => {
                 className={`flex items-center space-x-3 gap-4`}
               >
 
-                <div className="dropdown ">
+                <div className="dropdown z-20">
                   <div tabIndex={0} role="button" className="m-1">
                     <div className="tooltip tooltip-left avatar cursor-pointer" data-tooltip-id="my-tooltip" data-tooltip-content={''}>
                       <div className="w-12 rounded-full">
@@ -113,13 +118,13 @@ const Navbar = () => {
                     </div>
                   </div>
                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <li><a>Dashboard</a></li>
+                    <li><a>Dashboard</a></li>
                     <li>
                       <Link className="hidden md:flex"
                         onClick={() => signOut()}>
                         <button type="button" className="text-white bg-[#FF6D60] hover:bg-[#ff988f] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center">Logout</button>
                       </Link></li>
-                    
+
                   </ul>
                 </div>
 
