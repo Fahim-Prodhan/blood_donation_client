@@ -6,7 +6,7 @@ const Dashboard = () => {
     return (
         <div>
             <Sidebar></Sidebar>
-           <div className='md:ml-72 ml-4'> <Outlet></Outlet></div>
+           <div className='md:ml-[300px] ml-4'> <Outlet></Outlet></div>
         </div>
     );
 };
