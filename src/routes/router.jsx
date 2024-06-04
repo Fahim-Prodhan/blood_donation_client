@@ -7,6 +7,8 @@ import Login from "../Pages/login/Login";
 import mainUrl from "../services/helper";
 import Dashboard from "../layout/dashboard/Dashboard";
 import Profile from "../Pages/profile/Profile";
+import DashboardContent from "../Pages/dashboardContent/DashboardContent";
+import MyDonationRequests from "../Pages/myDonationRequests/MyDonationRequests";
 
 const router = createBrowserRouter([
     {
@@ -20,20 +22,6 @@ const router = createBrowserRouter([
         {
             path:'/register',
             element:<Register></Register>,
-            loader: async () => {
-                const [districtsResponse, upazilasResponse] = await Promise.all([
-                    fetch(`${mainUrl}/districts`),
-                    fetch(`${mainUrl}/upazilas`)
-                ]);
-        
-                const districts = await districtsResponse.json();
-                const upazilas = await upazilasResponse.json();
-        
-                return {
-                    districts,
-                    upazilas
-                };
-            }
         },
         {
             path:'/login',
@@ -46,22 +34,16 @@ const router = createBrowserRouter([
         element:<Dashboard></Dashboard>,
         children:[
             {
+                path:'',
+                element:<DashboardContent></DashboardContent>
+            },
+            {
                 path:'profile',
                 element:<Profile></Profile>,
-                loader: async () => {
-                    const [districtsResponse, upazilasResponse] = await Promise.all([
-                        fetch(`${mainUrl}/districts`),
-                        fetch(`${mainUrl}/upazilas`)
-                    ]);
-            
-                    const districts = await districtsResponse.json();
-                    const upazilas = await upazilasResponse.json();
-            
-                    return {
-                        districts,
-                        upazilas
-                    };
-                }
+            },
+            {
+                path:'my-donation-requests',
+                element:<MyDonationRequests></MyDonationRequests>
             }
         ]
     }

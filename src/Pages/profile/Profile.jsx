@@ -6,13 +6,14 @@ import { Helmet } from 'react-helmet';
 import { useLoaderData } from 'react-router-dom';
 import { motion } from "framer-motion";
 import useAxiosPublic from '../../hook/useAxiosPublic';
+import useLocationApi from '../../hook/useLocationApi';
 
 const Profile = () => {
 
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
-
     const { user } = useContext(AuthContext);
+
     const { refetch, data: users } = useQuery({
         queryKey: ['users', user?.email],
         queryFn: async () => {
@@ -20,7 +21,7 @@ const Profile = () => {
             return res.data;
         }
     });
-    const { districts, upazilas } = useLoaderData();
+    const {upazilas,districts} = useLocationApi()
     const [bloodGroup, setBloodGroup] = useState(users?.bloodGroup, refetch);
     const [district, selectDistrict] = useState(users?.district, refetch);
     const [upazila, selectUpazila] = useState(users?.upazila, refetch);

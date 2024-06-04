@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/no-unescaped-entities */
 import { useContext, useState } from "react";
-import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { updateProfile } from "firebase/auth";
 import { Helmet } from "react-helmet";
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -12,6 +12,7 @@ import { TiTick } from "react-icons/ti";
 import logo from '../../assets/images/logo.png';
 import { motion } from "framer-motion";
 import useAxiosPublic from "../../hook/useAxiosPublic";
+import useLocationApi from "../../hook/useLocationApi";
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
@@ -21,7 +22,7 @@ const Register = () => {
     const { createUser, setReload } = useContext(AuthContext);
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
-    const { districts, upazilas } = useLoaderData();
+    const {upazilas,districts} = useLocationApi()
     const [eye, setEye] = useState(false);
     const [bloodGroup, setBloodGroup] = useState('');
     const [district, selectDistrict] = useState('');
@@ -184,6 +185,7 @@ const Register = () => {
                                     className="select select-bordered w-full max-w-xs"
                                     value={district}
                                     onChange={(e) => selectDistrict(e.target.value)}
+                                    required
                                 >
                                     <option disabled selected value="">Select your District</option>
                                     {districts.map(d => <option value={d.name} key={d.id}>{d.name}</option>)}
@@ -197,6 +199,7 @@ const Register = () => {
                                     className="select select-bordered w-full max-w-xs"
                                     value={upazila}
                                     onChange={(e) => selectUpazila(e.target.value)}
+                                    required
                                 >
                                     <option disabled selected value="">Select your Upazila</option>
 
