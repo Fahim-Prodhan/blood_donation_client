@@ -5,10 +5,13 @@ import { AuthContext } from '../../provider/AuthProvider';
 import { Helmet } from 'react-helmet';
 import { useLoaderData } from 'react-router-dom';
 import { motion } from "framer-motion";
+import useAxiosPublic from '../../hook/useAxiosPublic';
 
 const Profile = () => {
 
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
+
     const { user } = useContext(AuthContext);
     const { refetch, data: users } = useQuery({
         queryKey: ['users', user?.email],
@@ -19,13 +22,65 @@ const Profile = () => {
     });
     const { districts, upazilas } = useLoaderData();
     const [bloodGroup, setBloodGroup] = useState(users?.bloodGroup, refetch);
-    const [district, selectDistrict] = useState(null);
-    const [upazila, selectUpazila] = useState(null);
+    const [district, selectDistrict] = useState(users?.district, refetch);
+    const [upazila, selectUpazila] = useState(users?.upazila, refetch);
     const [edit, setEdit] = useState(false)
 
-    console.log(users);
 
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
+    const handleUpdateUser = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const fileInput = form.fileInput;
+        const file = fileInput.files[0];
+
+        if (!file) {
+            const formData = {
+                name: name,
+                email: email,
+                bloodGroup: bloodGroup,
+                district: district,
+                upazila: upazila
+            }
+            axiosSecure.patch(`/users/${users?.email}`, formData)
+                .then(res => {
+                    console.log(res.data);
+                    refetch()
+                    setEdit(!edit)
+                })
+        } else {
+            const res = await axiosPublic.post(image_hosting_api, { image: file }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            const imgURL = res.data.data.display_url
+
+            const formDataImg = {
+                name: name,
+                email: email,
+                bloodGroup: bloodGroup,
+                district: district,
+                upazila: upazila,
+                image: imgURL,
+            }
+
+            if (res.data.success) {
+                axiosSecure.patch(`/users/${users?.email}`, formDataImg)
+                    .then(res => {
+                        console.log(res.data);
+                        refetch()
+                        setEdit(!edit)
+                        form.reset()
+                    })
+            }
+        }
+
+    };
 
 
     return (
@@ -38,13 +93,13 @@ const Profile = () => {
                     <div className="card shrink-0 w-full shadow-2xl bg-base-100">
                         <img className='w-52 rounded-badge mx-auto mt-4' src={users?.image} alt="" />
                         <h1 className="text-center text-5xl font-bold py-4">User Profile</h1>
-                        <button className='btn btn-accent'>Edit</button>
-                        <form onSubmit={''} className="card-body grid grid-cols-1 md:grid-cols-2">
+                        <button onClick={() => setEdit(!edit)} className={`${edit ? 'hidden': ''} btn btn-accent text-white w-16 self-center`}>Edit</button>
+                        <form onSubmit={handleUpdateUser} className="card-body grid grid-cols-1 md:grid-cols-2">
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Email</span>
                                 </label>
-                                <input defaultValue={edit ? user?.email : users?.email} readOnly={!edit} name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
+                                <input defaultValue={users?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
@@ -53,11 +108,11 @@ const Profile = () => {
                                 <input defaultValue={edit ? users?.name : users?.name} readOnly={!edit} name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
                             </div>
 
-                            <div className="form-control">
+                            <div className={`form-control ${edit ? '': 'hidden'}`}>
                                 <label className="label">
-                                    <span className="label-text font-bold">Upload Avatar*</span>
+                                    <span className="label-text font-bold">Upload Avatar</span>
                                 </label>
-                                <input required type="file" id="fileInput" name="fileInput" className="file-input file-input-bordered w-full max-w-xl" />
+                                <input type="file" id="fileInput" name="fileInput" className="file-input file-input-bordered w-full max-w-xl" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
@@ -123,7 +178,7 @@ const Profile = () => {
 
 
                             <div className="form-control mt-6 md:col-span-2">
-                                <button type="submit" className="btn bg-[#FF6D60] text-white">Create an account</button>
+                                <button type="submit" className={`${edit ? '': 'hidden'} btn bg-[#FF6D60] text-white`}>Save</button>
                             </div>
                         </form>
                     </div>
