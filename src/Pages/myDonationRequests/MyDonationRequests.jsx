@@ -3,7 +3,7 @@ import React from 'react';
 const MyDonationRequests = () => {
     return (
         <div>
-            donation req
+            MyDonationRequests
         </div>
     );
 };

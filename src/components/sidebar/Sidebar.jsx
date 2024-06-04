@@ -31,13 +31,6 @@ const Sidebar = () => {
         SetSidebar(!sidebar)
     }
 
-    const setDashboardActive = ()=>{
-        if (location.pathname === '/dashboard') {
-         setActive(true)   
-        }else{
-            setActive(false)
-        }
-    }
 
     return (
         <div className='relative'>
@@ -46,7 +39,7 @@ const Sidebar = () => {
                 <GiHamburgerMenu />
             </button>
 
-            <aside id="default-sidebar" className={`fixed left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0 ${sidebar ? 'top-0' : '-translate-x-full'}`} aria-label="Sidebar">
+            <aside id="default-sidebar" className={`fixed left-0 z-40 w-64 lg:w-72 h-screen transition-transform sm:translate-x-0 ${sidebar ? 'top-0' : '-translate-x-full'}`} aria-label="Sidebar">
 
                 <div className="h-full px-3 py-4 overflow-y-auto bg-[#eee] shadow grid">
                     <ul className="space-y-2 font-medium">
@@ -89,6 +82,15 @@ const Sidebar = () => {
                             })} to='/dashboard/profile' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><FaRegUserCircle /></span></p>
                                 <span className="ms-3">profile</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink style={({ isActive }) => ({
+                                color: "#FF204E",
+                                background: isActive ? '#374151' : ''
+                            })} to='/dashboard/create-donation-request' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
+                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><FaRegUserCircle /></span></p>
+                                <span className="ms-3">Create Donation Request</span>
                             </NavLink>
                         </li>
                         <li>
