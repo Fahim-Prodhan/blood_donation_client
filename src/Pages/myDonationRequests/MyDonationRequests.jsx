@@ -6,7 +6,7 @@ import { MdDelete } from 'react-icons/md';
 const MyDonationRequests = () => {
 
     const {donationRequests} = useDonationRequest()
-    console.log(donationRequests);
+
 
     return (
         <div>
