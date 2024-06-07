@@ -4,6 +4,7 @@ import { AuthContext } from '../../provider/AuthProvider';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { BiDonateHeart } from 'react-icons/bi';
+import Swal from 'sweetalert2';
 
 const DonationReqDetails = () => {
 
@@ -19,7 +20,39 @@ const DonationReqDetails = () => {
         },
     });
 
-    console.log(singleDonation);
+    const handleDonate = (e) => {
+        e.preventDefault()
+        const form = e.target
+        const donorName = form.donor_name.value;
+        const donorEmail = form.donor_email.value;
+
+        const formData = {
+            donorName: donorName,
+            donorEmail: donorEmail,
+            status: 'inprogress'
+        }
+
+        axiosSecure.patch(`/update-donation-request-done/${id}`, { formData })
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    document.getElementById('my_modal_3').close()
+                    setTimeout(() => {
+                    }, 100);
+                    Swal.fire({
+                        position: "top-right",
+                        icon: "success",
+                        title: "Thanks for become a donor",
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    refetch()
+                } else {
+                    console.log(res.data);
+                }
+            })
+
+        console.log(formData);
+    }
 
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto mt-4 lg:mt-12'>
@@ -54,14 +87,14 @@ const DonationReqDetails = () => {
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                     <h3 className="font-bold text-lg text-center">Donor Information</h3>
-                    <form className='mt-4 space-y-3'>
+                    <form onSubmit={handleDonate} className='mt-4 space-y-3'>
                         <label className="input input-bordered flex items-center gap-2">
                             Donor Name:
-                            <input value={user.displayName} type="text" className="grow" placeholder="" />
+                            <input name='donor_name' value={user?.displayName} type="text" className="grow" placeholder="" />
                         </label>
                         <label className="input input-bordered flex items-center gap-2">
                             Donor Email:
-                            <input value={user.email} type="text" className="grow" placeholder="" />
+                            <input name='donor_email' value={user?.email} type="email" className="grow" placeholder="" />
                         </label>
                         <div className='text-center'>
                             <button type='submit' className="btn text-[#40A2E3] bg-[#40a2e33a]">Confirm</button>
