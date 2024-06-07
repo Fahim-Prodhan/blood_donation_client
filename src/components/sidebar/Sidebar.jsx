@@ -26,9 +26,6 @@ const Sidebar = () => {
             })
     }
 
-    const location = useLocation();
-    console.log(location.pathname);
-
     const handleSidebar = () => {
         SetSidebar(!sidebar)
     }
@@ -110,7 +107,7 @@ const Sidebar = () => {
                                 background: isActive ? '#374151' : ''
                             })} to='/dashboard/all-blood-donation-request' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <FaUsers /></span></p>
-                                <span className="ms-3">All BloodDonation Request</span>
+                                <span className="ms-3">All Blood Donation Request</span>
                             </NavLink>
                         </li>
                         <li>
@@ -119,7 +116,7 @@ const Sidebar = () => {
                                 background: isActive ? '#374151' : ''
                             })} to='/dashboard/content-management' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <FaUsers /></span></p>
-                                <span className="ms-3">All BloodDonation Request</span>
+                                <span className="ms-3">Content Management</span>
                             </NavLink>
                         </li>
                     </ul>

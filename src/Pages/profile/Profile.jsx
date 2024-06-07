@@ -18,9 +18,11 @@ const Profile = () => {
         queryKey: ['users', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/users?email=${user?.email}`);
-            return res.data;
+            return res.data[0];
         }
     });
+
+    console.log(users);
     const {upazilas,districts} = useLocationApi()
     const [bloodGroup, setBloodGroup] = useState(users?.bloodGroup, refetch);
     const [district, selectDistrict] = useState(users?.district, refetch);

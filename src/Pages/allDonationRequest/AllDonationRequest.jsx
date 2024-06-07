@@ -1,17 +1,25 @@
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import useDonationRequest from '../../hook/useDonationRequest';
-import { FaEdit } from 'react-icons/fa';
+import useAxiosSecure from '../../hook/useAxiosSecure';
 import { MdDelete } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { FaEdit } from 'react-icons/fa';
 
-const MyDonationRequests = () => {
+const AllDonationRequest = () => {
 
-    const {donationRequests} = useDonationRequest()
+    const axiosSecure = useAxiosSecure()
 
+    const {data: allDonationRequest = []} = useQuery({
+        queryKey:['allDonationReq'],
+        queryFn: async ()=>{
+            const res = await axiosSecure.get('/all-blood-donation-request')
+            return res.data
+        }
 
+    })
+    
     return (
         <div>
-            <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>My Donation Requests</h1>
+            <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>All Donation Requests</h1>
             <div>
                 <div className="overflow-x-auto">
                     <table className="table table-zebra">
@@ -25,12 +33,12 @@ const MyDonationRequests = () => {
                                 <th>Donation status</th>
                                 <th> Donor information</th>
                                 <th> Action </th>
-                                <th> View Details</th>
+                                <th> View </th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                donationRequests.map(d=>
+                                allDonationRequest.map(d=>
                                     <tr key={d._id}>
                                         <td>{d.recipientName}</td>
                                         <td>{d.upazila}, {d.district}</td>
@@ -38,7 +46,7 @@ const MyDonationRequests = () => {
                                         <td>{d.donationTime}</td>
                                         <td>{d.status}</td>
                                         <td>{d?.donarInformation}</td>
-                                        <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link><button className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
+                                        <td className='space-x-2'><button className='text-[#615EFC] text-2xl'><FaEdit /></button> <button className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
                                         <td><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></td>
                                     </tr>
                                     )
@@ -51,4 +59,4 @@ const MyDonationRequests = () => {
     );
 };
 
-export default MyDonationRequests;
+export default AllDonationRequest;

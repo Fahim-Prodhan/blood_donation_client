@@ -8,12 +8,12 @@ import { motion } from "framer-motion";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import { useParams } from 'react-router-dom';
 
-
-
-const CreateDonationRequests = () => {
+const UpdateDonationRequest = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useContext(AuthContext);
+    const { id } = useParams();
 
     const { data: users } = useQuery({
         queryKey: ['users', user?.email],
@@ -22,11 +22,37 @@ const CreateDonationRequests = () => {
             return res.data[0];
         }
     });
-    const { upazilas, districts } = useLocationApi()
+
+    const { data: donationReq,refetch } = useQuery({
+        queryKey: ['donationById', id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/my-donation-request/${id}`);
+            return res.data;
+        },
+        onSuccess: (data) => {
+            setBloodGroup(data.bloodGroup || '');
+            selectDistrict(data.district || '');
+            selectUpazila(data.upazila || '');
+            setStartDate(new Date(data.donationDate) || new Date());
+        }
+    });
+
+    const { upazilas, districts } = useLocationApi();
     const [bloodGroup, setBloodGroup] = useState('');
     const [district, selectDistrict] = useState('');
     const [upazila, selectUpazila] = useState('');
     const [startDate, setStartDate] = useState(new Date());
+
+    useEffect(() => {
+        if (donationReq) {
+            setBloodGroup(donationReq.bloodGroup || '');
+            selectDistrict(donationReq.district || '');
+            selectUpazila(donationReq.upazila || '');
+            setStartDate(new Date(donationReq.donationDate) || new Date());
+        }
+    }, [donationReq]);
+
+
     const date = new Date(startDate);
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because January is 0
@@ -35,13 +61,10 @@ const CreateDonationRequests = () => {
     // Construct the formatted date string
     const donation_date = `${year}-${month}-${day}`;
 
-    // console.log(users);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
         const recipientName = form.recipient_name.value;
         const hospitalName = form.hospital_name.value;
         const donationTime = form.time.value;
@@ -49,39 +72,35 @@ const CreateDonationRequests = () => {
         const address = form.address.value;
 
         const formData = {
-            name: name,
-            email: email,
             bloodGroup: bloodGroup,
             district: district,
             upazila: upazila,
             recipientName: recipientName,
-            hospitalName:hospitalName,
-            donationDate:donation_date,
-            donationTime:donationTime,
-            requestMessage:requestMessage,
-            address:address,
-            status:'pending'
+            hospitalName: hospitalName,
+            donationDate: donation_date,
+            donationTime: donationTime,
+            requestMessage: requestMessage,
+            address: address,
         }
 
-        axiosSecure.post(`/create-donation-request`, formData)
-        .then(res=>{
-            if (res.data.insertedId) {
-                Swal.fire({
-                  title: "Congratulation!",
-                  text: "New donation request is created!",
-                  icon: "success",
-                });
-  
-                form.reset();
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Oops...",
-                  text: "Something went wrong!",
-                });
-              }
-        })
-
+        axiosSecure.patch(`/update-donation-request/${id}`, formData)
+            .then(res => {
+                if (res.data.modifiedCount>0) {
+                    Swal.fire({
+                        title: "Congratulation!",
+                        text: "Donation request is Updated!",
+                        icon: "success",
+                    });
+                    refetch()
+                } else {
+                    console.log(res);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!",
+                    });
+                }
+            })
     };
 
     return (
@@ -111,7 +130,7 @@ const CreateDonationRequests = () => {
                                 <label className="label">
                                     <span className="label-text font-bold">Recipient Name</span>
                                 </label>
-                                <input name="recipient_name" type="text" placeholder="Enter recipient name" className="input input-bordered" required />
+                                <input defaultValue={donationReq?.recipientName} name="recipient_name" type="text" placeholder="Enter recipient name" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
@@ -123,7 +142,7 @@ const CreateDonationRequests = () => {
                                     onChange={(e) => setBloodGroup(e.target.value)}
                                     required
                                 >
-                                    <option disabled selected value="">Select blood group</option>
+                                    <option disabled value="">{donationReq?.bloodGroup}</option>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
                                     <option value="B+">B+</option>
@@ -143,9 +162,8 @@ const CreateDonationRequests = () => {
                                     className="select select-bordered w-full max-w-xl"
                                     value={district}
                                     onChange={(e) => selectDistrict(e.target.value)}
-
                                 >
-                                    <option disabled selected value="">Select recipient  districts</option>
+                                    <option disabled value=''>{donationReq?.district}</option>
                                     {districts.map(d => (
                                         <option value={d.name} key={d.id}>
                                             {d.name}
@@ -163,7 +181,7 @@ const CreateDonationRequests = () => {
                                     value={upazila}
                                     onChange={(e) => selectUpazila(e.target.value)}
                                 >
-                                    <option disabled selected value="">Select recipient  upazila</option>
+                                    <option disabled value="">{donationReq?.upazila}</option>
                                     {upazilas.map(u => <option value={u.name} key={u.id}>{u.name}</option>)}
                                 </select>
                             </div>
@@ -172,36 +190,36 @@ const CreateDonationRequests = () => {
                                 <label className="label">
                                     <span className="label-text font-bold">Hospital Name</span>
                                 </label>
-                                <input name="hospital_name" type="text" placeholder="Enter hospital name" className="input input-bordered" required />
+                                <input defaultValue={donationReq?.hospitalName} name="hospital_name" type="text" placeholder="Enter hospital name" className="input input-bordered" required />
                             </div>
 
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Full address line</span>
                                 </label>
-                                <input name="address" type="text" placeholder="Enter full address" className="input input-bordered" required />
+                                <input defaultValue={donationReq?.address} name="address" type="text" placeholder="Enter full address" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Donation date</span>
                                 </label>
-                                <DatePicker className="w-full border py-3 rounded-lg px-4" selected={startDate} onChange={(date) => setStartDate(date)} > </DatePicker>
+                                <DatePicker className="w-full border py-3 rounded-lg px-4" selected={startDate} onChange={(date) => setStartDate(date)} />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Donation time</span>
                                 </label>
-                                <input name="time" type="text" placeholder="Enter donation time" className="input input-bordered" required />
+                                <input defaultValue={donationReq?.donationTime} name="time" type="text" placeholder="Enter donation time" className="input input-bordered" required />
                             </div>
                             <div className="form-control lg:col-span-2">
                                 <label className="label">
                                     <span className="label-text font-bold">Request message</span>
                                 </label>
-                                <textarea name="message" type="text" placeholder="Enter  request message" className="input input-bordered" required />
+                                <textarea defaultValue={donationReq?.requestMessage} name="message" type="text" placeholder="Enter request message" className="input input-bordered" required />
                             </div>
 
                             <div className="form-control mt-6 md:col-span-2">
-                                <button type="submit" className={`btn bg-[#FF6D60] text-white`}>Request</button>
+                                <button type="submit" className={`btn bg-[#FF6D60] text-white`}>Update</button>
                             </div>
                         </form>
                     </div>
@@ -211,4 +229,4 @@ const CreateDonationRequests = () => {
     );
 };
 
-export default CreateDonationRequests;
+export default UpdateDonationRequest;
