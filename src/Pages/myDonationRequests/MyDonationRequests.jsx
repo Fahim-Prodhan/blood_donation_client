@@ -39,7 +39,6 @@ const MyDonationRequests = () => {
                             });
                         }
                     })
-
             }
         });
 
@@ -76,7 +75,7 @@ const MyDonationRequests = () => {
                                         <td>{d.status}</td>
                                         <td>{d?.donarInformation}</td>
                                         <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link><button onClick={()=>handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
-                                        <td><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></td>
+                                        <td><Link to={`/donation-requests-details/${d._id}`}><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></Link></td>
                                     </tr>
                                 )
                             }

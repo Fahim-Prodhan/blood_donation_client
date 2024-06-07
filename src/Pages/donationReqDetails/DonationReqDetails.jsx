@@ -1,0 +1,77 @@
+import React, { useContext } from 'react';
+import useAxiosSecure from '../../hook/useAxiosSecure';
+import { AuthContext } from '../../provider/AuthProvider';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { BiDonateHeart } from 'react-icons/bi';
+
+const DonationReqDetails = () => {
+
+    const axiosSecure = useAxiosSecure();
+    const { user } = useContext(AuthContext);
+    const { id } = useParams();
+
+    const { data: singleDonation, refetch } = useQuery({
+        queryKey: ['donationSingle', id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/my-donation-request/${id}`);
+            return res.data;
+        },
+    });
+
+    console.log(singleDonation);
+
+    return (
+        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto mt-4 lg:mt-12'>
+            <div className="bg-base-100 shadow-xl">
+                <div className="card-body justify-center">
+
+                    <h1 className='text-4xl text-center text-[#FF204E] font-bold'> < BiDonateHeart className='text-7xl mx-auto' /> Donation Requests Details</h1>
+                    <div className='grid grid-cols-2 items-center mt-12 gap-4'>
+                        <p className='text-xl'><span className='font-bold'>Requester Name:</span> {singleDonation?.name}</p>
+                        <p className='text-xl'><span className='font-bold'>Requester email:</span> {singleDonation?.email}</p>
+                        <p className='text-xl'><span className='font-bold'>Recipient Name:</span> {singleDonation?.recipientName}</p>
+                        <p className='text-xl'><span className='font-bold'>Blood Group:</span> {singleDonation?.bloodGroup}</p>
+                        <p className='text-xl'><span className='font-bold'>District:</span> {singleDonation?.district}</p>
+                        <p className='text-xl'><span className='font-bold'>Upazila:</span> {singleDonation?.upazila}</p>
+                        <p className='text-xl'><span className='font-bold'>Full Address:</span> {singleDonation?.address}</p>
+                        <p className='text-xl'><span className='font-bold'>Hospital Name:</span> {singleDonation?.hospitalName}</p>
+                        <p className='text-xl'><span className='font-bold'>Donation date:</span> {singleDonation?.donationDate}</p>
+                        <p className='text-xl'><span className='font-bold'>Donation time:</span> {singleDonation?.donationTime}</p>
+                        <p className='text-xl'><span className='font-bold'>Request Message:</span> {singleDonation?.requestMessage}</p>
+                        <p className='text-xl'><span className='font-bold'>Status:</span> {singleDonation?.status}</p>
+                    </div>
+                    <div className='text-center mt-12'>
+                        <button onClick={() => document.getElementById('my_modal_3').showModal()} className="btn  bg-[#ff204d41] text-[#FF204E]">Donate</button>
+                    </div>
+                </div>
+            </div>
+            {/* You can open the modal using document.getElementById('ID').showModal() method */}
+            <dialog id="my_modal_3" className="modal">
+                <div className="modal-box">
+                    <form method="dialog">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <h3 className="font-bold text-lg text-center">Donor Information</h3>
+                    <form className='mt-4 space-y-3'>
+                        <label className="input input-bordered flex items-center gap-2">
+                            Donor Name:
+                            <input value={user.displayName} type="text" className="grow" placeholder="" />
+                        </label>
+                        <label className="input input-bordered flex items-center gap-2">
+                            Donor Email:
+                            <input value={user.email} type="text" className="grow" placeholder="" />
+                        </label>
+                        <div className='text-center'>
+                            <button type='submit' className="btn text-[#40A2E3] bg-[#40a2e33a]">Confirm</button>
+
+                        </div>
+                    </form>
+                </div>
+            </dialog>
+        </div>
+    );
+};
+
+export default DonationReqDetails;

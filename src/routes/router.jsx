@@ -4,7 +4,6 @@ import Root from "../layout/root/Root";
 import Home from "../Pages/HomeComponents/home/Home";
 import Register from "../Pages/register/Register";
 import Login from "../Pages/login/Login";
-import mainUrl from "../services/helper";
 import Dashboard from "../layout/dashboard/Dashboard";
 import Profile from "../Pages/profile/Profile";
 import DashboardContent from "../Pages/dashboardContent/DashboardContent";
@@ -15,6 +14,7 @@ import AllDonationRequest from "../Pages/allDonationRequest/AllDonationRequest";
 import ContentManagement from "../Pages/contentManagement/ContentManagement";
 import AddBlog from "../Pages/addBlog/AddBlog";
 import UpdateDonationRequest from "../Pages/updateDonationRequest/UpdateDonationRequest";
+import DonationReqDetails from "../Pages/donationReqDetails/DonationReqDetails";
 
 const router = createBrowserRouter([
     {
@@ -32,7 +32,11 @@ const router = createBrowserRouter([
         {
             path:'/login',
             element:<Login></Login>
-        }
+        },
+        {
+            path:'/donation-requests-details/:id',
+            element:<DonationReqDetails></DonationReqDetails>
+        },
       ]
     },
     {
@@ -76,7 +80,7 @@ const router = createBrowserRouter([
                 element:<AddBlog></AddBlog>
             }
         ]
-    }
+    },
   ]);
 
 export default router;
