@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import JoditEditor from 'jodit-react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
+import Swal from 'sweetalert2'
 
 
 
@@ -38,12 +39,23 @@ const AddBlog = ({ placeholder }) => {
             const formData = {
                 title: title,
                 image: imgURL,
-                content: content
+                content: content,
+                status:'draft'
             }
 
             axiosSecure.post('/posts', formData)
                 .then(res => {
-                    alert(res.data.insertedId)
+                    if (res.data.insertedId) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Your work has been saved",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        form.reset()
+                        setContent('')
+                    }
                 })
         }
     }
@@ -86,7 +98,7 @@ const AddBlog = ({ placeholder }) => {
 
                     </div>
                     <div className='text-center my-4 col-span-2'>
-                        <button className="btn bg-[#3abcf929] text-[#3ABEF9]">Add Blog</button>
+                        <button className="btn bg-[#3abcf929] text-[#3ABEF9]">Create</button>
                     </div>
                 </form>
 

@@ -5,7 +5,7 @@ const axiosPublic = axios.create({
     baseURL: mainUrl
 })
 
-const useAxiosPublic = () =>{
+const  useAxiosPublic= () =>{
     return axiosPublic
 }
 export default useAxiosPublic
