@@ -10,9 +10,9 @@ const AllDonationRequest = () => {
 
     const axiosSecure = useAxiosSecure()
 
-    const {refetch,data: allDonationRequest = []} = useQuery({
-        queryKey:['allDonationReq'],
-        queryFn: async ()=>{
+    const { refetch, data: allDonationRequest = [] } = useQuery({
+        queryKey: ['allDonationReq'],
+        queryFn: async () => {
             const res = await axiosSecure.get('/all-blood-donation-request')
             return res.data
         }
@@ -51,7 +51,7 @@ const AllDonationRequest = () => {
         });
 
     }
-    
+
     return (
         <div>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>All Donation Requests</h1>
@@ -73,24 +73,29 @@ const AllDonationRequest = () => {
                         </thead>
                         <tbody>
                             {
-                                allDonationRequest.map(d=>
+                                allDonationRequest.map(d =>
                                     <tr key={d._id}>
                                         <td>{d.recipientName}</td>
                                         <td>{d.upazila}, {d.district}</td>
                                         <td>{d.donationDate}</td>
                                         <td>{d.donationTime}</td>
                                         <td>{d.status}</td>
-                                        <td>{d?.donarInformation}</td>
-                                        <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link> <button onClick={()=>handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
+                                        <td>
+                                            <div>
+                                                <div className="font-bold">{d?.donorName}</div>
+                                                <div className="text-sm opacity-50">{d?.donorEmail}</div>
+                                            </div>
+                                        </td>
+                                        <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link> <button onClick={() => handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
                                         <td><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></td>
                                     </tr>
-                                    )
+                                )
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

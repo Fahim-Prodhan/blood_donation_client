@@ -86,7 +86,7 @@ const ContentManagement = () => {
                                 <td>
                                   <button className="btn-sm btn text-[#FC4100] bg-[#fc3f0034]">{b?.status}</button>
                                 </td>
-                                <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${''}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link> <button onClick={() => handleDelete(b?._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
+                                <td className='space-x-2'><Link to={`/dashboard/content-management/update/${b?._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link> <button onClick={() => handleDelete(b?._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
                             </tr>)
                            }
                         </tbody>

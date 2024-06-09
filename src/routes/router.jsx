@@ -15,6 +15,7 @@ import ContentManagement from "../Pages/contentManagement/ContentManagement";
 import AddBlog from "../Pages/addBlog/AddBlog";
 import UpdateDonationRequest from "../Pages/updateDonationRequest/UpdateDonationRequest";
 import DonationReqDetails from "../Pages/donationReqDetails/DonationReqDetails";
+import UpdateBlogs from "../Pages/updateBlog/UpdateBlogs";
 
 const router = createBrowserRouter([
     {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
             {
                 path:'content-management/add-blog',
                 element:<AddBlog></AddBlog>
+            },
+            {
+                path:'content-management/update/:id',
+                element:<UpdateBlogs></UpdateBlogs>
             }
         ]
     },

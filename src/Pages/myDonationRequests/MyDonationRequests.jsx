@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 const MyDonationRequests = () => {
 
-    const { donationRequests,refetch } = useDonationRequest()
+    const { donationRequests, refetch } = useDonationRequest()
     const axiosSecure = useAxiosSecure();
 
     const handleDeleteDonationReq = (id) => {
@@ -73,8 +73,11 @@ const MyDonationRequests = () => {
                                         <td>{d.donationDate}</td>
                                         <td>{d.donationTime}</td>
                                         <td>{d.status}</td>
-                                        <td>{d?.donarInformation}</td>
-                                        <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link><button onClick={()=>handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
+                                        <td><div>
+                                            <div className="font-bold">{d?.donorName}</div>
+                                            <div className="text-sm opacity-50">{d?.donorEmail}</div>
+                                        </div></td>
+                                        <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link><button onClick={() => handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
                                         <td><Link to={`/donation-requests-details/${d._id}`}><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></Link></td>
                                     </tr>
                                 )
