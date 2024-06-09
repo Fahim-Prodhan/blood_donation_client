@@ -7,6 +7,7 @@ import { useLoaderData } from 'react-router-dom';
 import { motion } from "framer-motion";
 import useAxiosPublic from '../../hook/useAxiosPublic';
 import useLocationApi from '../../hook/useLocationApi';
+import Swal from 'sweetalert2';
 
 const Profile = () => {
 
@@ -51,9 +52,15 @@ const Profile = () => {
             }
             axiosSecure.patch(`/users/${users?.email}`, formData)
                 .then(res => {
-                    console.log(res.data);
-                    refetch()
-                    setEdit(!edit)
+                    if(res.data.modifiedCount>0){
+                        Swal.fire({
+                            title: "Congratulation!",
+                            text: "Profile is Updated!",
+                            icon: "success",
+                          });
+                          refetch()
+                          setEdit(!edit)
+                    }
                 })
         } else {
             const res = await axiosPublic.post(image_hosting_api, { image: file }, {
@@ -75,10 +82,16 @@ const Profile = () => {
             if (res.data.success) {
                 axiosSecure.patch(`/users/${users?.email}`, formDataImg)
                     .then(res => {
-                        console.log(res.data);
-                        refetch()
-                        setEdit(!edit)
-                        form.reset()
+                        if(res.data.modifiedCount>0){
+                            Swal.fire({
+                                title: "Congratulation!",
+                                text: "Profile is Updated!",
+                                icon: "success",
+                              });
+                              refetch()
+                              setEdit(!edit)
+                        }
+                       
                     })
             }
         }

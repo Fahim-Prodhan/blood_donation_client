@@ -13,7 +13,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const UpdateBlogs = ({ placeholder }) => { 
     const {id} = useParams()
-    const {blog} = useGetSingleBlog({id:id})
+    const {blog, refetch} = useGetSingleBlog({id:id})
     const editor = useRef(null);
     const [content, setContent] = useState(blog?.content);
     const axiosSecure = useAxiosSecure()
@@ -30,43 +30,62 @@ const UpdateBlogs = ({ placeholder }) => {
         [placeholder]
     );
 
-    const handleUpdatSubmit = async (e) => {
+    const handleUpdateSubmit = async (e) => {
         e.preventDefault()
         const form = e.target;
         const title = form.title.value;
         const fileInput = form.fileInput;
         const file = fileInput.files[0];
-        const res = await axiosSecure.post(image_hosting_api, { image: file }, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        const imgURL = res.data.data.display_url
 
 
-        if (res.data.success) {
+        if(!file){
             const formData = {
-                title: title,
-                image: imgURL,
-                content: content,
-                status:'draft'
+                title:title,
+                content:content,
             }
 
-            axiosSecure.post('/posts', formData)
-                .then(res => {
-                    if (res.data.insertedId) {
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Your work has been saved",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        form.reset()
-                        setContent('')
-                    }
-                })
+            axiosSecure.patch(`/update-blog/${id}`,formData)
+            .then(res=>{
+                if(res.data.modifiedCount>0){
+                    Swal.fire({
+                        title: "Congratulation!",
+                        text: "Blog is Updated!",
+                        icon: "success",
+                      });
+                      refetch()
+                }
+            })
+        }else{
+            const res = await axiosSecure.post(image_hosting_api, { image: file }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            const imgURL = res.data.data.display_url
+    
+    
+            if (res.data.success) {
+                const formData = {
+                    title: title,
+                    image: imgURL,
+                    content: content,
+                }
+    
+                axiosSecure.patch(`/update-blog/${id}`, formData)
+                    .then(res => {
+                        if(res.data.modifiedCount>0){
+                            Swal.fire({
+                                title: "Congratulation!",
+                                text: "Blog is Updated!",
+                                icon: "success",
+                              });
+                              refetch()
+                        }
+                    })
+            }
         }
+
+       
     }
 
 
@@ -74,7 +93,7 @@ const UpdateBlogs = ({ placeholder }) => {
         <div>
             <div className="card bg-base-100 shadow-xl max-w-4xl mx-auto ">
                 <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>Update Blogs</h1>
-                <form onSubmit={handleUpdatSubmit} className="card-body grid grid-cols-2">
+                <form onSubmit={handleUpdateSubmit} className="card-body grid grid-cols-2">
                     <div>
                         <label className="form-control w-full">
                             <div className="label">
@@ -88,7 +107,7 @@ const UpdateBlogs = ({ placeholder }) => {
                             <div className="label">
                                 <span className="label-text font-bold">Upload Picture</span>
                             </div>
-                            <input required type="file" id="fileInput" name="fileInput" className="file-input file-input-bordered w-full" />
+                            <input type="file" id="fileInput" name="fileInput" className="file-input file-input-bordered w-full" />
                         </label>
                     </div>
                     <div className='col-span-2'>
