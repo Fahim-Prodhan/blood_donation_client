@@ -8,10 +8,12 @@ import useGetBlogs from '../../hook/useGetBlogs';
 import parse from 'html-react-parser';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { useState } from 'react';
 
 const ContentManagement = () => {
 
-    const {blogs, refetch} = useGetBlogs();
+    const [status, setStatus] = useState('')
+    const {blogs, refetch} = useGetBlogs({status});
     const axiosSecure = useAxiosSecure();
 
     const handleUpdateStatus = (id, value)=>{
@@ -102,10 +104,11 @@ const ContentManagement = () => {
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>Content Management</h1>
             <div className='grid grid-cols-2'>
                 <div className="dropdown dropdown-hover">
-                    <div tabIndex={0} role="button" className="btn m-1 bg-[#0d92753c] text-[#0D9276]">Filter</div>
+                    <div tabIndex={0} role="button" className="btn m-1 bg-[#ff910026] text-[#FF8F00]">Filter</div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a>Item 1</a></li>
-                        <li><a>Item 2</a></li>
+                        <li><a onClick={()=>setStatus('')}>All Blogs</a></li>
+                        <li><a  onClick={()=>setStatus('published')}>Published</a></li>
+                        <li><a  onClick={()=>setStatus('draft')}>Draft</a></li>
                     </ul>
                 </div>
                 <div className='text-right'>
