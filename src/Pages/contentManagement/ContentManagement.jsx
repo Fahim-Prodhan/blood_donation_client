@@ -14,6 +14,62 @@ const ContentManagement = () => {
     const {blogs, refetch} = useGetBlogs();
     const axiosSecure = useAxiosSecure();
 
+    const handleUpdateStatus = (id, value)=>{
+        if(value === 'published'){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to change the status",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Change it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axiosSecure.patch(`/blogs/updateStatus/${id}`, { status: 'published' })
+                        .then(res => {
+                            if (res.data.modifiedCount > 0) {
+                                Swal.fire({
+                                    title: "Changed!",
+                                    text: 'Blog is now published!',
+                                    icon: "success"
+                                });
+                                refetch()
+                            }
+                        })
+
+                }
+            });
+
+        }else if(value === 'draft'){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to change the status",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Change it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axiosSecure.patch(`/blogs/updateStatus/${id}`, { status: 'draft' })
+                        .then(res => {
+                            if (res.data.modifiedCount > 0) {
+                                Swal.fire({
+                                    title: "Changed!",
+                                    text: 'Blog is now draft!',
+                                    icon: "success"
+                                });
+                                refetch()
+                            }
+                        })
+
+                }
+            });
+
+        }
+    }
+
     const handleDelete = id =>{
         Swal.fire({
             title: "Are you sure?",
@@ -84,7 +140,12 @@ const ContentManagement = () => {
                                 <td><p className='font-bold'>{b?.title}</p> </td>
                                 <td> <p>{parse(b?.content.slice(0,70))}...</p></td>
                                 <td>
-                                  <button className="btn-sm btn text-[#FC4100] bg-[#fc3f0034]">{b?.status}</button>
+                                    {
+                                        b?.status === 'draft' ? 
+                                  <button onClick={()=>handleUpdateStatus(b?._id, 'published')} className="btn-sm btn text-[#FC4100] bg-[#fc3f0034]">{b?.status}</button>:
+                                  <button onClick={()=>handleUpdateStatus(b?._id, 'draft')}  className="btn-sm btn text-[#3ABEF9] bg-[#3abcf93a]">{b?.status}</button>
+
+                                    }
                                 </td>
                                 <td className='space-x-2'><Link to={`/dashboard/content-management/update/${b?._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link> <button onClick={() => handleDelete(b?._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
                             </tr>)
