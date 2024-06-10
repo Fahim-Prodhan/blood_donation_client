@@ -85,7 +85,7 @@ const Register = () => {
                             console.log(error)
                         })
                     toast.success("Registration Successful", {
-                        position: "top-right",
+                        position: "top-center",
                         duration: 5000,
                         style: { width: '250px', height: '70px' },
                     });

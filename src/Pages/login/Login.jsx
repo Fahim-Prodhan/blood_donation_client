@@ -1,13 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../provider/AuthProvider";
-import auth from "../../firebase/firebase.config";
 import logo from '../../assets/images/logo.png'
 import { TiTick } from "react-icons/ti";
 import { motion } from "framer-motion";
@@ -24,9 +22,6 @@ const Login = () => {
         setEye(!eye)
     }
 
-
-
-
     const handleSingInUser = (e) => {
         e.preventDefault();
         const form = new FormData(e.currentTarget)
@@ -37,15 +32,15 @@ const Login = () => {
             .then(() => {
                 // console.log(res.user);
                 toast.success("Login Successful", {
-                    position: "top-right",
-                    duration: 5000,
+                    position: "top-center",
+                    duration: 3000,
                     style: { width: '250px', height: '70px' },
                 });
                     navigate(location.state ? `${location.state}` : '/')     
             })
             .catch(error => {
                 toast.error("Something is went wrong", {
-                    position: "top-right",
+                    position: "top-center",
                     duration: 5000,
                     style: { width: '250px', height: '70px' },
                 });

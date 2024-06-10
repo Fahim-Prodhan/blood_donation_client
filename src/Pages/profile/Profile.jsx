@@ -3,17 +3,17 @@ import React, { useContext, useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import { AuthContext } from '../../provider/AuthProvider';
 import { Helmet } from 'react-helmet';
-import { useLoaderData } from 'react-router-dom';
 import { motion } from "framer-motion";
 import useAxiosPublic from '../../hook/useAxiosPublic';
 import useLocationApi from '../../hook/useLocationApi';
 import Swal from 'sweetalert2';
+import { updateProfile } from 'firebase/auth';
 
 const Profile = () => {
 
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
-    const { user } = useContext(AuthContext);
+    const { user,setReload } = useContext(AuthContext);
 
     const { refetch, data: users } = useQuery({
         queryKey: ['users', user?.email],
@@ -93,6 +93,17 @@ const Profile = () => {
                         }
                        
                     })
+
+                     // update the profile with current name and photoUrl
+                     updateProfile(user, {
+                        displayName: name, photoURL: imgURL
+                    })
+                        .then(() => {
+                            setReload(true)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
             }
         }
 

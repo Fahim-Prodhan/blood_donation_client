@@ -3,8 +3,6 @@ import { IoMdClose } from "react-icons/io";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from '../../assets/images/logo.png'
 import { AuthContext } from "../../provider/AuthProvider";
-import { signOut } from "firebase/auth";
-import auth from "../../firebase/firebase.config";
 import toast from "react-hot-toast";
 import 'react-tooltip/dist/react-tooltip.css'
 import { Tooltip } from "react-tooltip";
@@ -22,6 +20,7 @@ const Navbar = () => {
         navigate('/login')
       })
   }
+
 
   useEffect(() => {
     localStorage.setItem('theme', theme)
