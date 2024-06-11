@@ -50,6 +50,16 @@ const CreateDonationRequests = () => {
         const requestMessage = form.message.value;
         const address = form.address.value;
 
+        if(users.IsActive === 'blocked'){
+            Swal.fire({
+                icon: "error",
+                title: "Your can't create donation request",
+                text: "Your account is blocked!",
+              });
+              form.reset()
+            return
+        }
+
         const formData = {
             name: name,
             email: email,

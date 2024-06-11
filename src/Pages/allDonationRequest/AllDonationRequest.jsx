@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import { MdDelete } from 'react-icons/md';
 import { FaEdit } from 'react-icons/fa';
@@ -8,15 +8,26 @@ import Swal from 'sweetalert2';
 
 const AllDonationRequest = () => {
 
+    const [itemsPerPage] = useState(2);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [status, setStatus] = useState('');
     const axiosSecure = useAxiosSecure()
 
-    const { refetch, data: allDonationRequest = [] } = useQuery({
-        queryKey: ['allDonationReq'],
+    const { refetch, data: allDonationRequest = {} } = useQuery({
+        queryKey: ['allDonationReq',currentPage,itemsPerPage,status],
         queryFn: async () => {
-            const res = await axiosSecure.get('/all-blood-donation-request')
+            const res = await axiosSecure.get(`/all-blood-donation-request?page=${currentPage - 1}&size=${itemsPerPage}&status=${status}`)
             return res.data
         }
     })
+
+    console.log(allDonationRequest);
+
+    const allReq = allDonationRequest.allDonations || [];
+    const totalCount = allDonationRequest.totalCount || 0;
+    const numberOfPages = Math.ceil(totalCount / itemsPerPage);
+    const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
+
 
     const handleDeleteDonationReq = (id) => {
         Swal.fire({
@@ -52,9 +63,34 @@ const AllDonationRequest = () => {
 
     }
 
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < pages.length) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+
     return (
         <div>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>All Donation Requests</h1>
+            <div className="dropdown dropdown-hover">
+                <div tabIndex={0} role="button" className="btn m-1 bg-[#0d92753c] text-[#0D9276]">Filter</div>
+                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a onClick={() => setStatus('')}>All</a></li>
+                    <li><a onClick={() => setStatus('pending')}>Pending</a></li>
+                    <li><a onClick={() => setStatus('inprogress')}>In Progress</a></li>
+                    <li><a onClick={() => setStatus('done')}>Done</a></li>
+                    <li><a onClick={() => setStatus('canceled')}>Canceled</a></li>
+                    
+                </ul>
+            </div>
             <div>
                 <div className="overflow-x-auto">
                     <table className="table table-zebra">
@@ -73,7 +109,7 @@ const AllDonationRequest = () => {
                         </thead>
                         <tbody>
                             {
-                                allDonationRequest.map(d =>
+                                allReq.map(d =>
                                     <tr key={d._id}>
                                         <td>{d.recipientName}</td>
                                         <td>{d.upazila}, {d.district}</td>
@@ -96,6 +132,18 @@ const AllDonationRequest = () => {
                     </table>
                 </div>
             </div>
+            <div className='flex justify-center mt-12 gap-4'>
+                    <button onClick={handlePrev} className="btn">Prev</button>
+                    {pages.map(page => (
+                        <button
+                            onClick={() => setCurrentPage(page)}
+                            className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
+                            key={page}>
+                            {page}
+                        </button>
+                    ))}
+                    <button onClick={handleNext} className="btn">Next</button>
+                </div>
         </div >
     );
 };

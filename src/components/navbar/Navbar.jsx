@@ -58,14 +58,32 @@ const Navbar = () => {
           background: "transparent",
         })}>Home</NavLink>
       </li>
-      <li>
-        <details>
-          <summary style={{ color: `${color}`, fontSize: '18px' }}>My Profile</summary>
-          <ul className="p-2 w-60">
-            <li><Link to='/addPost'>Dashboard</Link></li>
-            <li><Link to='/manage-post'>My Profile</Link></li>
-          </ul>
-        </details>
+      <li><NavLink
+        onClick={hamburger}
+        to="/donation-requests"
+        style={({ isActive }) => ({
+          color: isActive ? "#FF204E" : `${color}`,
+          fontSize: '18px',
+          background: "transparent",
+        })}>Donation Requests</NavLink>
+      </li>
+      <li><NavLink
+        onClick={hamburger}
+        to="/blogs"
+        style={({ isActive }) => ({
+          color: isActive ? "#FF204E" : `${color}`,
+          fontSize: '18px',
+          background: "transparent",
+        })}>Blog</NavLink>
+      </li>
+      <li><NavLink
+        onClick={hamburger}
+        to="/funding"
+        style={({ isActive }) => ({
+          color: isActive ? "#FF204E" : `${color}`,
+          fontSize: '18px',
+          background: "transparent",
+        })}>Funding</NavLink>
       </li>
 
     </>

@@ -75,7 +75,7 @@ const DonationReqDetails = () => {
                         <p className='text-xl'><span className='font-bold'>Status:</span> {singleDonation?.status}</p>
                     </div>
                     <div className='text-center mt-12'>
-                        <button onClick={() => document.getElementById('my_modal_3').showModal()} className="btn  bg-[#ff204d41] text-[#FF204E]">Donate</button>
+                        <button disabled={singleDonation?.status !== 'pending'} onClick={() => document.getElementById('my_modal_3').showModal()} className="btn  bg-[#ff204d41] text-[#FF204E]">Donate</button>
                     </div>
                 </div>
             </div>

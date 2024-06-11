@@ -47,7 +47,7 @@ const Sidebar = () => {
                         {/* Profile Pic and name */}
                         <div className='mb-4 '>
 
-                            <img className='w-[50%] mx-auto' src={logo} alt="" />
+                            <Link className='cursor-pointer' to='/'><img className='w-[50%] mx-auto' src={logo} alt="" /></Link>
                             <hr className='border-2 mt-4 border-black' />
 
                         </div>
@@ -123,7 +123,7 @@ const Sidebar = () => {
 
                     <ul className='self-end md:space-x-6 lg:space-x-16'>
                         
-                        <Link to='/'><button  className='btn bg-[#0D9276] text-white'>< FaHome /> Home</button></Link>
+                        <Link to='/'><button  className='btn bg-green-500 text-white'>< FaHome /> Home</button></Link>
                         <button onClick={signOut} className='btn btn-error text-white'>Logout <IoIosLogOut /></button>
                     </ul>
                 </div>
