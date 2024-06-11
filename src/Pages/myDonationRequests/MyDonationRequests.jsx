@@ -10,8 +10,9 @@ const MyDonationRequests = () => {
 
     const [itemsPerPage] = useState(2);
     const [currentPage, setCurrentPage] = useState(1);
+    const [status, setStatus] = useState('')
 
-    const { donationRequests, refetch } = useDonationRequest({ currentPage, itemsPerPage })
+    const { donationRequests, refetch } = useDonationRequest({ currentPage, itemsPerPage, status })
     const axiosSecure = useAxiosSecure();
 
 
@@ -80,7 +81,7 @@ const MyDonationRequests = () => {
 
                 }
             });
-        }else if (value === 'cancel') {
+        } else if (value === 'canceled') {
             Swal.fire({
                 title: "Are you sure?",
                 text: "You want to change the status",
@@ -91,7 +92,7 @@ const MyDonationRequests = () => {
                 confirmButtonText: "Yes, Change it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axiosSecure.patch(`/my-donation-request/updateStatus/${id}`, { status: 'cancel' })
+                    axiosSecure.patch(`/my-donation-request/updateStatus/${id}`, { status: 'canceled' })
                         .then(res => {
                             if (res.data.modifiedCount > 0) {
                                 Swal.fire({
@@ -124,66 +125,83 @@ const MyDonationRequests = () => {
     return (
         <div>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>My Donation Requests</h1>
-            <div>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        {/* head */}
-                        <thead>
-                            <tr>
-                                <th>Recipient Name</th>
-                                <th>Recipient location</th>
-                                <th>Donation date</th>
-                                <th>Donation time</th>
-                                <th>Donation status</th>
-                                <th> Donor information</th>
-                                <th>Done/Cancel</th>
-                                <th> Action </th>
-                                <th> View Details</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                allReq.map(d =>
-                                    <tr key={d?._id}>
-                                        <td>{d?.recipientName}</td>
-                                        <td>{d?.upazila}, {d.district}</td>
-                                        <td>{d?.donationDate}</td>
-                                        <td>{d?.donationTime}</td>
-                                        <td>{d?.status}</td>
-                                        <td><div>
-                                            <div className="font-bold">{d?.donorName}</div>
-                                            <div className="text-sm opacity-50">{d?.donorEmail}</div>
-                                        </div></td>
-                                        <td>
-                                            {
-                                                d?.status === 'inprogress' &&
-                                                <div className='space-x-2'>
-                                                    <button onClick={()=>handleUpdateStatus(d?._id, 'done')} className="btn btn-sm text-white btn-success">Done</button>
-                                                    <button onClick={()=>handleUpdateStatus(d?._id, 'cancel')} className="btn btn-sm text-white btn-error">Cancel</button>
-                                                </div>
-                                            }
-                                        </td>
-                                        <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link><button onClick={() => handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
-                                        <td><Link to={`/donation-requests-details/${d?._id}`}><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></Link></td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </table>
+            <div className="dropdown dropdown-hover">
+                <div tabIndex={0} role="button" className="btn m-1 bg-[#0d92753c] text-[#0D9276]">Filter</div>
+                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a onClick={() => setStatus('')}>All</a></li>
+                    <li><a onClick={() => setStatus('pending')}>Pending</a></li>
+                    <li><a onClick={() => setStatus('inprogress')}>In Progress</a></li>
+                    <li><a onClick={() => setStatus('done')}>Done</a></li>
+                    <li><a onClick={() => setStatus('canceled')}>Canceled</a></li>
+                    
+                </ul>
+            </div>
+            {
+                allReq?.length > 0 &&
+                <div>
+                    <div className="overflow-x-auto">
+                        <table className="table table-zebra">
+                            {/* head */}
+                            <thead>
+                                <tr>
+                                    <th>Recipient Name</th>
+                                    <th>Recipient location</th>
+                                    <th>Donation date</th>
+                                    <th>Donation time</th>
+                                    <th>Donation status</th>
+                                    <th> Donor information</th>
+                                    <th>Done/Cancel</th>
+                                    <th> Action </th>
+                                    <th> View Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    allReq.map(d =>
+                                        <tr key={d?._id}>
+                                            <td>{d?.recipientName}</td>
+                                            <td>{d?.upazila}, {d.district}</td>
+                                            <td>{d?.donationDate}</td>
+                                            <td>{d?.donationTime}</td>
+                                            <td>{d?.status}</td>
+                                            <td><div>
+                                                <div className="font-bold">{d?.donorName}</div>
+                                                <div className="text-sm opacity-50">{d?.donorEmail}</div>
+                                            </div></td>
+                                            <td>
+                                                {
+                                                    d?.status === 'inprogress' &&
+                                                    <div className='space-x-2'>
+                                                        <button onClick={() => handleUpdateStatus(d?._id, 'done')} className="btn btn-sm text-white btn-success">Done</button>
+                                                        <button onClick={() => handleUpdateStatus(d?._id, 'canceled')} className="btn btn-sm text-white btn-error">Cancel</button>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td className='space-x-2'><Link to={`/dashboard/update-donation-requests/${d._id}`}><button className='text-[#615EFC] text-2xl'><FaEdit /></button> </Link><button onClick={() => handleDeleteDonationReq(d._id)} className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
+                                            <td><Link to={`/donation-requests-details/${d?._id}`}><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></Link></td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div className='flex justify-center mt-12 gap-4'>
-                <button onClick={handlePrev} className="btn">Prev</button>
-                {pages.map(page => (
-                    <button
-                        onClick={() => setCurrentPage(page)}
-                        className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
-                        key={page}>
-                        {page}
-                    </button>
-                ))}
-                <button onClick={handleNext} className="btn">Next</button>
-            </div>
+            }
+            {
+                allReq?.length > 0 &&
+                <div className='flex justify-center mt-12 gap-4'>
+                    <button onClick={handlePrev} className="btn">Prev</button>
+                    {pages.map(page => (
+                        <button
+                            onClick={() => setCurrentPage(page)}
+                            className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
+                            key={page}>
+                            {page}
+                        </button>
+                    ))}
+                    <button onClick={handleNext} className="btn">Next</button>
+                </div>
+            }
         </div>
     );
 };
