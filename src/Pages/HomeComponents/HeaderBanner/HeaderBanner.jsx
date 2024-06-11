@@ -44,7 +44,7 @@ function HeaderBanner() {
         <div className="px-6 lg:px-0 w-full md:space-y-4 text-center z-20 absolute top-[45%] left-1/2 text-white -translate-x-1/2 -translate-y-1/2">
           <h1 className="animate__animated animate__fadeInDown text-2xl lg:text-5xl lg:font-black font-bold pt-4">Join as a donor</h1>
           <p className="animate__animated animate__fadeInDown md:text-xl pt-4 pb-2 lg:pb-6"> Donate blood, save lives. Be a hero today!</p>
-          <Link to='/donate'>
+          <Link to='/search'>
             <button className="bg-[#FF204E] md:text-xl font-semibold btn text-white border-none hover:bg-red-600 px-12">Search Donors</button>
           </Link>
         </div>

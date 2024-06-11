@@ -20,6 +20,7 @@ import AllDonationReqPublic from "../Pages/allDonationReqPublic/AllDonationReqPu
 import mainUrl from "../services/helper";
 import BlogsPublic from "../Pages/blogsPublic/BlogsPublic";
 import BlogsDetails from "../Pages/blogsDetails/BlogsDetails";
+import SearchPage from "../Pages/searchPage/SearchPage";
 
 const router = createBrowserRouter([
     {
@@ -55,7 +56,11 @@ const router = createBrowserRouter([
         {
             path:'/blogsDetails/:id',
             element:<BlogsDetails></BlogsDetails>,
-        }
+        },
+        {
+            path:'/search',
+            element:<SearchPage></SearchPage>,
+        },
       ]
     },
     {
