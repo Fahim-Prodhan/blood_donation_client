@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useContext, useState } from 'react';
 import logo from '../../assets/images/logo.png'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { MdDashboard, MdOutlineCreateNewFolder } from "react-icons/md";
 import { FaHome, FaRegUserCircle, FaUsers } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";

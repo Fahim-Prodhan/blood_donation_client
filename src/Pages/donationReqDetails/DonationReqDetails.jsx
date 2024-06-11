@@ -59,20 +59,20 @@ const DonationReqDetails = () => {
             <div className="bg-base-100 shadow-xl">
                 <div className="card-body justify-center">
 
-                    <h1 className='text-4xl text-center text-[#FF204E] font-bold'> < BiDonateHeart className='text-7xl mx-auto' /> Donation Requests Details</h1>
-                    <div className='grid grid-cols-2 items-center mt-12 gap-4'>
-                        <p className='text-xl'><span className='font-bold'>Requester Name:</span> {singleDonation?.name}</p>
-                        <p className='text-xl'><span className='font-bold'>Requester email:</span> {singleDonation?.email}</p>
-                        <p className='text-xl'><span className='font-bold'>Recipient Name:</span> {singleDonation?.recipientName}</p>
-                        <p className='text-xl'><span className='font-bold'>Blood Group:</span> {singleDonation?.bloodGroup}</p>
-                        <p className='text-xl'><span className='font-bold'>District:</span> {singleDonation?.district}</p>
-                        <p className='text-xl'><span className='font-bold'>Upazila:</span> {singleDonation?.upazila}</p>
-                        <p className='text-xl'><span className='font-bold'>Full Address:</span> {singleDonation?.address}</p>
-                        <p className='text-xl'><span className='font-bold'>Hospital Name:</span> {singleDonation?.hospitalName}</p>
-                        <p className='text-xl'><span className='font-bold'>Donation date:</span> {singleDonation?.donationDate}</p>
-                        <p className='text-xl'><span className='font-bold'>Donation time:</span> {singleDonation?.donationTime}</p>
-                        <p className='text-xl'><span className='font-bold'>Request Message:</span> {singleDonation?.requestMessage}</p>
-                        <p className='text-xl'><span className='font-bold'>Status:</span> {singleDonation?.status}</p>
+                    <h1 className=' text-2xl md:text-4xl text-center text-[#FF204E] font-bold'> < BiDonateHeart className='text-7xl mx-auto' /> Donation Requests Details</h1>
+                    <div className='grid md:grid-cols-2 items-center mt-12 gap-4'>
+                        <p className='md:text-xl'><span className='font-bold'>Requester Name:</span> {singleDonation?.name}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Requester email:</span> {singleDonation?.email}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Recipient Name:</span> {singleDonation?.recipientName}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Blood Group:</span> {singleDonation?.bloodGroup}</p>
+                        <p className='md:text-xl'><span className='font-bold'>District:</span> {singleDonation?.district}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Upazila:</span> {singleDonation?.upazila}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Full Address:</span> {singleDonation?.address}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Hospital Name:</span> {singleDonation?.hospitalName}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Donation date:</span> {singleDonation?.donationDate}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Donation time:</span> {singleDonation?.donationTime}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Request Message:</span> {singleDonation?.requestMessage}</p>
+                        <p className='md:text-xl'><span className='font-bold'>Status:</span> {singleDonation?.status}</p>
                     </div>
                     <div className='text-center mt-12'>
                         <button disabled={singleDonation?.status !== 'pending'} onClick={() => document.getElementById('my_modal_3').showModal()} className="btn  bg-[#ff204d41] text-[#FF204E]">Donate</button>

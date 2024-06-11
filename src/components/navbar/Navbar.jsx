@@ -166,7 +166,7 @@ const Navbar = () => {
               onClick={handleHamburger}
               data-collapse-toggle="navbar-cta"
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg lg:hidden text-white "
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg lg:hidden"
               aria-controls="navbar-cta"
               aria-expanded="false"
             >

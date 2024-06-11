@@ -18,6 +18,8 @@ import DonationReqDetails from "../Pages/donationReqDetails/DonationReqDetails";
 import UpdateBlogs from "../Pages/updateBlog/UpdateBlogs";
 import AllDonationReqPublic from "../Pages/allDonationReqPublic/AllDonationReqPublic";
 import mainUrl from "../services/helper";
+import BlogsPublic from "../Pages/blogsPublic/BlogsPublic";
+import BlogsDetails from "../Pages/blogsDetails/BlogsDetails";
 
 const router = createBrowserRouter([
     {
@@ -47,9 +49,13 @@ const router = createBrowserRouter([
         },
         {
             path:'/blogs',
-            element:<AllDonationReqPublic></AllDonationReqPublic>,
-            loader:()=>fetch(`${mainUrl}/all-donation-request-public`)
+            element:<BlogsPublic></BlogsPublic>,
+            loader:()=>fetch(`${mainUrl}/public-blogs`)
         },
+        {
+            path:'/blogsDetails/:id',
+            element:<BlogsDetails></BlogsDetails>,
+        }
       ]
     },
     {
