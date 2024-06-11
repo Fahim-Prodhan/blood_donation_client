@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import toast from "react-hot-toast";
-import axios from "axios";
-import baseUrl from "../services/helper";
+
 
 
 

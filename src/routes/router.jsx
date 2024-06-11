@@ -21,6 +21,8 @@ import mainUrl from "../services/helper";
 import BlogsPublic from "../Pages/blogsPublic/BlogsPublic";
 import BlogsDetails from "../Pages/blogsDetails/BlogsDetails";
 import SearchPage from "../Pages/searchPage/SearchPage";
+import Funding from "../Pages/Funding/Funding";
+import GiveFunding from "../Pages/Funding/GiveFunding/GiveFunding";
 
 const router = createBrowserRouter([
     {
@@ -60,6 +62,14 @@ const router = createBrowserRouter([
         {
             path:'/search',
             element:<SearchPage></SearchPage>,
+        },
+        {
+            path:'/funding',
+            element:<Funding></Funding>,
+        },
+        {
+            path:'/give-funding/:amount',
+            element:<GiveFunding></GiveFunding>,
         },
       ]
     },

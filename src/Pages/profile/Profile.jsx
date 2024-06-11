@@ -15,19 +15,21 @@ const Profile = () => {
     const axiosPublic = useAxiosPublic();
     const { user,setReload } = useContext(AuthContext);
 
-    const { refetch, data: users } = useQuery({
-        queryKey: ['users', user?.email],
+    const { refetch, data: currentUser } = useQuery({
+        queryKey: ['currentUser', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users?email=${user?.email}`);
-            return res.data[0];
+            const res = await axiosSecure.get(`/currentUsers?email=${user?.email}`);
+            return res.data;
         }
     });
 
-    console.log(users);
+    console.log(currentUser);
+
+
     const {upazilas,districts} = useLocationApi()
-    const [bloodGroup, setBloodGroup] = useState(users?.bloodGroup, refetch);
-    const [district, selectDistrict] = useState(users?.district, refetch);
-    const [upazila, selectUpazila] = useState(users?.upazila, refetch);
+    const [bloodGroup, setBloodGroup] = useState(currentUser?.bloodGroup, refetch);
+    const [district, selectDistrict] = useState(currentUser?.district, refetch);
+    const [upazila, selectUpazila] = useState(currentUser?.upazila, refetch);
     const [edit, setEdit] = useState(false)
 
 
@@ -50,7 +52,7 @@ const Profile = () => {
                 district: district,
                 upazila: upazila
             }
-            axiosSecure.patch(`/users/${users?.email}`, formData)
+            axiosSecure.patch(`/users/${currentUser?.email}`, formData)
                 .then(res => {
                     if(res.data.modifiedCount>0){
                         Swal.fire({
@@ -80,7 +82,7 @@ const Profile = () => {
             }
 
             if (res.data.success) {
-                axiosSecure.patch(`/users/${users?.email}`, formDataImg)
+                axiosSecure.patch(`/users/${currentUser?.email}`, formDataImg)
                     .then(res => {
                         if(res.data.modifiedCount>0){
                             Swal.fire({
@@ -110,6 +112,8 @@ const Profile = () => {
     };
 
 
+
+
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-4xl mx-auto'>
             <Helmet>
@@ -118,7 +122,7 @@ const Profile = () => {
             <div className="">
                 <motion.div>
                     <div className="card shrink-0 w-full shadow-2xl bg-base-100">
-                        <img className='w-52 rounded-badge mx-auto mt-4' src={users?.image} alt="" />
+                        <img className='w-52 rounded-badge mx-auto mt-4' src={currentUser?.image} alt="" />
                         <h1 className="text-center text-5xl font-bold py-4">User Profile</h1>
                         <button onClick={() => setEdit(!edit)} className={`${edit ? 'hidden': ''} btn btn-accent text-white w-16 self-center`}>Edit</button>
                         <form onSubmit={handleUpdateUser} className="card-body grid grid-cols-1 md:grid-cols-2">
@@ -126,13 +130,13 @@ const Profile = () => {
                                 <label className="label">
                                     <span className="label-text font-bold">Email</span>
                                 </label>
-                                <input defaultValue={users?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
+                                <input defaultValue={currentUser?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Name</span>
                                 </label>
-                                <input defaultValue={edit ? users?.name : users?.name} readOnly={!edit} name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
+                                <input defaultValue={edit ? currentUser?.name : currentUser?.name} readOnly={!edit} name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
                             </div>
 
                             <div className={`form-control ${edit ? '': 'hidden'}`}>
@@ -147,8 +151,8 @@ const Profile = () => {
                                 </label>
                                 <select
                                     className="select select-bordered w-full max-w-xl"
-                                    value={edit ? bloodGroup : users?.bloodGroup}
-                                    defaultValue={users?.bloodGroup}
+                                    value={edit ? bloodGroup : currentUser?.bloodGroup}
+                                    defaultValue={currentUser?.bloodGroup}
                                     onChange={(e) => setBloodGroup(e.target.value)}
                                     required
                                     disabled={!edit}
@@ -170,12 +174,12 @@ const Profile = () => {
                                 </label>
                                 <select
                                     className="select select-bordered w-full max-w-xl"
-                                    value={edit ? (district || '') : (users?.district || '')}
+                                    value={edit ? (district || '') : (currentUser?.district || '')}
                                     onChange={(e) => selectDistrict(e.target.value)}
                                     disabled={!edit}
                                 >
                                     <option disabled value="">
-                                        {users?.district ? users?.district : "No district set"}
+                                        {currentUser?.district ? currentUser?.district : "No district set"}
                                     </option>
                                     {districts.map(d => (
                                         <option value={d.name} key={d.id}>
@@ -191,12 +195,12 @@ const Profile = () => {
                                 </label>
                                 <select
                                     className="select select-bordered w-full max-w-xl"
-                                    value={edit ? (upazila || '') : (users?.upazila || '')}
+                                    value={edit ? (upazila || '') : (currentUser?.upazila || '')}
                                     onChange={(e) => selectUpazila(e.target.value)}
                                     disabled={!edit}
                                 >
                                     <option disabled value="">
-                                        {users?.upazila ? users?.upazila : "No district set"}
+                                        {currentUser?.upazila ? currentUser?.upazila : "No district set"}
                                     </option>
 
                                     {upazilas.map(u => <option value={u.name} key={u.id}>{u.name}</option>)}
