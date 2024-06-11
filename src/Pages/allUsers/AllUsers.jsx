@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import Swal from 'sweetalert2'
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();

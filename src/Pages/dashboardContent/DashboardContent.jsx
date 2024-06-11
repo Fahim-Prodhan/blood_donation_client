@@ -9,49 +9,58 @@ import { BiSolidDonateHeart } from "react-icons/bi";
 
 const DashboardContent = () => {
     const { user } = useContext(AuthContext)
-    const { donationRequests } = useDonationRequest()
+    const { donationRequests } = useDonationRequest(1,3)
+
+    console.log(donationRequests);
 
     return (
         <div>
-            <h1 className='text-4xl text-center font-bold py-8'><span className='text-[#FF204E]'>Welcome </span>{user?.displayName}</h1>
-            <div>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        {/* head */}
-                        <thead>
-                            <tr>
-                                <th>Recipient Name</th>
-                                <th>Recipient location</th>
-                                <th>Donation date</th>
-                                <th>Donation time</th>
-                                <th>Donation status</th>
-                                <th> Donor information</th>
-                                <th> Action </th>
-                                <th> View </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                donationRequests.slice(0, 5).map(d =>
-                                    <tr key={d._id}>
-                                        <td>{d.recipientName}</td>
-                                        <td>{d.upazila}, {d.district}</td>
-                                        <td>{d.donationDate}</td>
-                                        <td>{d.donationTime}</td>
-                                        <td>{d.status}</td>
-                                        <td>{d?.donarInformation}</td>
-                                        <td className='space-x-2'><button className='text-[#615EFC] text-2xl'><FaEdit /></button> <button className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
-                                        <td><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </table>
+            <h1 className='text-4xl text-center font-bold py-8'><span className='text-[#FF204E]'>Welcome <br className='lg:hidden block'/> </span>{user?.displayName}</h1>
+            {
+                donationRequests.donationsReq?.length > 0 &&
+                <div>
+                    <div className="overflow-x-auto">
+                        <table className="table table-zebra">
+                            {/* head */}
+                            <thead>
+                                <tr>
+                                    <th>Recipient Name</th>
+                                    <th>Recipient location</th>
+                                    <th>Donation date</th>
+                                    <th>Donation time</th>
+                                    <th>Donation status</th>
+                                    <th> Donor information</th>
+                                    <th> Action </th>
+                                    <th> View </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    donationRequests.donationsReq.slice(0, 3).map(d =>
+                                        <tr key={d._id}>
+                                            <td>{d.recipientName}</td>
+                                            <td>{d.upazila}, {d.district}</td>
+                                            <td>{d.donationDate}</td>
+                                            <td>{d.donationTime}</td>
+                                            <td>{d.status}</td>
+                                            <td><div>
+                                                <div className="font-bold">{d?.donorName}</div>
+                                                <div className="text-sm opacity-50">{d?.donorEmail}</div>
+                                            </div></td>
+                                            <td className='space-x-2'><button className='text-[#615EFC] text-2xl'><FaEdit /></button> <button className='text-[#FF204E] text-2xl'><MdDelete /></button></td>
+                                            
+                                        <td><Link to={`/donation-requests-details/${d._id}`}><button className='text-[#41B06E] hover:bg-[#41b06d5c] px-2 py-1 rounded-md '>view</button></Link></td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='mt-4 text-center'>
+                        <Link to='/dashboard/my-donation-requests'> <button className="btn bg-[#279eff53] text-[#279EFF]">view my all request</button></Link>
+                    </div>
                 </div>
-                <div className='mt-4 text-center'>
-                    <Link to='/dashboard/my-donation-requests'> <button className="btn bg-[#279eff53] text-[#279EFF]">view my all request</button></Link>
-                </div>
-            </div>
+            }
 
             {/* For admin */}
             <div className='grid grid-cols-1 lg:grid-cols-3 mx-4 gap-6 justify-center'>
@@ -59,7 +68,7 @@ const DashboardContent = () => {
                     <div className="card-body">
                         <div className="card-actions justify-end">
                             <button className="btn btn-square btn-md">
-                                <FaUsers className='text-2xl'  />
+                                <FaUsers className='text-2xl' />
                             </button>
                         </div>
                         <p>Total User</p>
@@ -71,7 +80,7 @@ const DashboardContent = () => {
                     <div className="card-body">
                         <div className="card-actions justify-end">
                             <button className="btn btn-square btn-md">
-                            <AiFillDollarCircle className='text-2xl' />
+                                <AiFillDollarCircle className='text-2xl' />
                             </button>
                         </div>
                         <p>Total funding</p>
@@ -83,7 +92,7 @@ const DashboardContent = () => {
                     <div className="card-body">
                         <div className="card-actions justify-end">
                             <button className="btn btn-square btn-md">
-                            <BiSolidDonateHeart className='text-2xl' />
+                                <BiSolidDonateHeart className='text-2xl' />
                             </button>
                         </div>
                         <p>Total Blood Donation Request</p>

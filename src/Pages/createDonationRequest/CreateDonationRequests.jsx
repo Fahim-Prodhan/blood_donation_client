@@ -14,14 +14,16 @@ import Swal from "sweetalert2";
 const CreateDonationRequests = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useContext(AuthContext);
+    console.log(user);
 
     const { data: users } = useQuery({
         queryKey: ['users', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users?email=${user?.email}`);
-            return res.data[0];
+            const res = await axiosSecure.get(`/currentUsers?email=${user?.email}`);
+            return res.data;
         }
     });
+    console.log(users);
     const { upazilas, districts } = useLocationApi()
     const [bloodGroup, setBloodGroup] = useState('');
     const [district, selectDistrict] = useState('');
@@ -92,7 +94,7 @@ const CreateDonationRequests = () => {
             <div className="">
                 <motion.div>
                     <div className="card shrink-0 w-full shadow-2xl bg-base-100">
-                        <h1 className="text-center text-5xl font-bold py-4">Create Donation Request</h1>
+                        <h1 className="text-center text-3xl lg:text-5xl font-bold py-4">Create Donation Request</h1>
                         <form onSubmit={handleFormSubmit} className="card-body grid grid-cols-1 md:grid-cols-2">
 
                             <div className="form-control">

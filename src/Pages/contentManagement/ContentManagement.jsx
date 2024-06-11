@@ -158,6 +158,7 @@ const ContentManagement = () => {
                     </table>
                 </div>
             </div>
+            
         </div>
     );
 };
