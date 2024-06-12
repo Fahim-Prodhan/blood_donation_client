@@ -6,8 +6,8 @@ const BlogsPublic = () => {
     const [index, setIndex] = useState(6)
 
     return (
-        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
-            <h1 className='text-4xl text-center font-bold pb-8 text-[#FF204E]'>Blogs</h1>
+        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto mt-8 lg:mt-12'>
+            <h1 className='text-2xl md:text-4xl text-center font-bold pb-8 text-[#FF204E]'>Blogs</h1>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6'>
                 {
                     blogs.slice(0, index).map(b =>

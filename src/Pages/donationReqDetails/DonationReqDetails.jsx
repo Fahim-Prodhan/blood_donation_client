@@ -64,7 +64,7 @@ const DonationReqDetails = () => {
                 }
             })
 
-        console.log(formData);
+        // console.log(formData);
     }
     if (loading) {
         return <div className="flex justify-center"><span className="loading loading-ring loading-xs"></span>

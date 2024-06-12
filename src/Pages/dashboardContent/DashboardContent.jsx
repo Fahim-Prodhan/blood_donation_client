@@ -138,7 +138,7 @@ const DashboardContent = () => {
 
     return (
         <div>
-            <h1 className='text-4xl text-center font-bold py-8'><span className='text-[#FF204E]'>Welcome <br className='lg:hidden block' /> </span>{user?.displayName}</h1>
+            <h1 className='text-2xl md:text-4xl text-center font-bold py-8'><span className='text-[#FF204E]'>Welcome <br className='lg:hidden block' /> </span>{user?.displayName}</h1>
             {
                 donationRequests.donationsReq?.length > 0 && currentUser?.role === 'donor' &&
                 <div>

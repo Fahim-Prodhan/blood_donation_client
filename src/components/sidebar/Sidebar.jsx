@@ -17,6 +17,7 @@ const Sidebar = () => {
     const [sidebar, SetSidebar] = useState(false)
     const { logout } = useContext(AuthContext)
     const navigate = useNavigate()
+    const [active] = useState(false)
     const { currentUser } = useCurrentUser()
 
     const signOut = () => {
@@ -30,6 +31,7 @@ const Sidebar = () => {
     const handleSidebar = () => {
         SetSidebar(!sidebar)
     }
+
 
     return (
         <div className='relative'>
@@ -55,13 +57,11 @@ const Sidebar = () => {
                         {/* Others */}
 
                         <li>
-                            <NavLink style={({ isActive }) => {
-                                console.log(isActive);
-                                return {
-                                    color: "#FF204E",
-                                    background: isActive ? '#374151' : ''
-                                }
-                            }} to='/dashboard' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                            <NavLink style={() => ({
+                                color: "#FF204E",
+                                background: active ? '#374151' : ''
+
+                            })} to='/dashboard' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' >< MdDashboard /></span></p>
                                 <span className="ms-3">Dashboard</span>
 
