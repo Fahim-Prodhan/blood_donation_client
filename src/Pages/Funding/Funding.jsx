@@ -14,8 +14,8 @@ const Funding = () => {
     const [itemsPerPage] = useState(2);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCount, setTotalCount] = useState(1);
+    const [loading, setLoading] = useState(false)
 
-   
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -24,11 +24,16 @@ const Funding = () => {
     }
 
     useEffect(() => {
-        axiosSecure.get(`/allFunding?page=${currentPage - 1}&size=${itemsPerPage}`)
-            .then(res => {
-                setFundings(res.data.allFunds)
-                setTotalCount(res.data.totalCount)
-            })
+        setLoading(true)
+        setTimeout(() => {
+            axiosSecure.get(`/allFunding?page=${currentPage - 1}&size=${itemsPerPage}`)
+                .then(res => {
+                    setFundings(res.data.allFunds)
+                    setTotalCount(res.data.totalCount)
+                    setLoading(false)
+                })
+        }, 1000);
+
     }, [axiosSecure, currentPage, itemsPerPage])
 
     const numberOfPages = Math.ceil(totalCount / itemsPerPage);
@@ -46,6 +51,13 @@ const Funding = () => {
             setCurrentPage(currentPage + 1);
         }
     };
+
+    if (loading) {
+        return <div className="flex justify-center"><span className="loading loading-ring loading-xs"></span>
+            <span className="loading loading-ring loading-sm"></span>
+            <span className="loading loading-ring loading-md"></span>
+            <span className="loading loading-ring loading-lg"></span></div>
+    }
 
     return (
         <div className='mx-12'>

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import { AuthContext } from '../../provider/AuthProvider';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { BiDonateHeart } from 'react-icons/bi';
 import Swal from 'sweetalert2';
 
@@ -11,14 +10,28 @@ const DonationReqDetails = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useContext(AuthContext);
     const { id } = useParams();
+    const [singleDonation, setSingleDonation] = useState({})
+    const [loading, setLoading] = useState(false)
 
-    const { data: singleDonation, refetch } = useQuery({
-        queryKey: ['donationSingle', id],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/my-donation-request/${id}`);
-            return res.data;
-        },
-    });
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            axiosSecure.get(`/my-donation-request/${id}`)
+                .then(res => {
+                    setSingleDonation(res.data)
+                    setLoading(false)
+                })
+        }, 1000);
+    }, [axiosSecure, id])
+
+    // const { data: singleDonation, refetch } = useQuery({
+    //     queryKey: ['donationSingle', id],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/my-donation-request/${id}`);
+    //         return res.data;
+    //     },
+    // });
 
     const handleDonate = (e) => {
         e.preventDefault()
@@ -45,7 +58,7 @@ const DonationReqDetails = () => {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    refetch()
+
                 } else {
                     console.log(res.data);
                 }
@@ -53,7 +66,12 @@ const DonationReqDetails = () => {
 
         console.log(formData);
     }
-
+    if (loading) {
+        return <div className="flex justify-center"><span className="loading loading-ring loading-xs"></span>
+            <span className="loading loading-ring loading-sm"></span>
+            <span className="loading loading-ring loading-md"></span>
+            <span className="loading loading-ring loading-lg"></span></div>
+    }
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto mt-4 lg:mt-12'>
             <div className="bg-base-100 shadow-xl">

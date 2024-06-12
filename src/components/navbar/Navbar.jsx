@@ -9,7 +9,7 @@ import { Tooltip } from "react-tooltip";
 
 const Navbar = () => {
   const [hamburger, setHamburger] = useState(false);
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, setLoading } = useContext(AuthContext);
   const [theme, setTheme] = useState(localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light')
   const [color, setColor] = useState('#00224D')
   const navigate = useNavigate()
@@ -17,7 +17,9 @@ const Navbar = () => {
     logout()
       .then(() => {
         toast.success('logout successful')
+        setLoading(false)
         navigate('/login')
+        
       })
   }
 

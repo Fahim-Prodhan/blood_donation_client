@@ -80,7 +80,7 @@ const router = createBrowserRouter([
         element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children:[
             {
-                path:'',
+                path:'/dashboard',
                 element:<DashboardContent></DashboardContent>
             },
             {
