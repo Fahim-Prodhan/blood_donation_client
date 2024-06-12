@@ -76,7 +76,7 @@ const Navbar = () => {
           color: isActive ? "#FF204E" : `${color}`,
           fontSize: '18px',
           background: "transparent",
-        })}>Blog</NavLink>
+        })}>Blogs</NavLink>
       </li>
       <li><NavLink
         onClick={hamburger}

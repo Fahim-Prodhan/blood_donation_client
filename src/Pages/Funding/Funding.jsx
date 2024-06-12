@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { BiDonateHeart } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import useAxiosSecure from '../../hook/useAxiosSecure';
+import { Helmet } from 'react-helmet';
 
 
 const Funding = () => {
@@ -61,6 +62,9 @@ const Funding = () => {
 
     return (
         <div className='mx-12'>
+            <Helmet>
+                <title>BloodBridge | Funding</title>
+            </Helmet>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>Funding Details</h1>
             <div>
                 <div className='text-left'>

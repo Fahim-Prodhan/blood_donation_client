@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import Swal from 'sweetalert2'
+import { Helmet } from 'react-helmet';
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
@@ -151,6 +152,9 @@ const AllUsers = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>BloodBridge | All Users</title>
+            </Helmet>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>All Users</h1>
             <div className="dropdown dropdown-hover">
                 <div tabIndex={0} role="button" className="btn m-1 bg-[#0d92753c] text-[#0D9276]">Filter</div>

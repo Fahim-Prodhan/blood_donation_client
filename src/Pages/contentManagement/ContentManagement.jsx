@@ -10,6 +10,7 @@ import useAxiosSecure from '../../hook/useAxiosSecure';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
 import useCurrentUser from '../../hook/useCurrentUser';
+import { Helmet } from 'react-helmet';
 
 const ContentManagement = () => {
 
@@ -103,6 +104,9 @@ const ContentManagement = () => {
 
     return (
         <div className='mx-6'>
+            <Helmet>
+                <title>BloodBridge | Content</title>
+            </Helmet>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>Content Management</h1>
             <div className='grid grid-cols-2'>
                 <div className="dropdown dropdown-hover">

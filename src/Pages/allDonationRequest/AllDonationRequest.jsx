@@ -6,6 +6,7 @@ import { FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useCurrentUser from '../../hook/useCurrentUser';
+import { Helmet } from 'react-helmet';
 
 const AllDonationRequest = () => {
 
@@ -185,6 +186,9 @@ const AllDonationRequest = () => {
 
     return (
         <div>
+             <Helmet>
+                <title>BloodBridge | Donation Requests</title>
+            </Helmet>
             <h1 className='text-4xl text-center text-[#FF204E] font-bold py-12'>All Donation Requests</h1>
             <div className="dropdown dropdown-hover">
                 <div tabIndex={0} role="button" className="btn m-1 bg-[#0d92753c] text-[#0D9276]">Filter</div>

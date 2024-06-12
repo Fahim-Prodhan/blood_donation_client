@@ -10,6 +10,7 @@ import useAxiosSecure from '../../hook/useAxiosSecure';
 import useCurrentUser from '../../hook/useCurrentUser';
 import useAxiosPublic from '../../hook/useAxiosPublic';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const DashboardContent = () => {
     const { user } = useContext(AuthContext)
@@ -138,6 +139,9 @@ const DashboardContent = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>BloodBridge | Dashboard</title>
+            </Helmet>
             <h1 className='text-2xl md:text-4xl text-center font-bold py-8'><span className='text-[#FF204E]'>Welcome <br className='lg:hidden block' /> </span>{user?.displayName}</h1>
             {
                 donationRequests.donationsReq?.length > 0 && currentUser?.role === 'donor' &&
