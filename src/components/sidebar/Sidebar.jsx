@@ -10,6 +10,7 @@ import { AuthContext } from '../../provider/AuthProvider';
 import toast from 'react-hot-toast';
 import { BiDonateHeart } from 'react-icons/bi';
 import { IoIosLogOut } from 'react-icons/io';
+import { ImBlogger2 } from "react-icons/im";
 import useCurrentUser from '../../hook/useCurrentUser';
 
 const Sidebar = () => {
@@ -115,7 +116,7 @@ const Sidebar = () => {
                                 color: "#FF204E",
                                 background: isActive ? '#374151' : ''
                             })} to='/dashboard/all-blood-donation-request' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
-                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <FaUsers /></span></p>
+                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <BiDonateHeart /></span></p>
                                 <span className="ms-3">All Blood Donation Request</span>
                             </NavLink>
                         </li>
@@ -126,7 +127,7 @@ const Sidebar = () => {
                                 color: "#FF204E",
                                 background: isActive ? '#374151' : ''
                             })} to='/dashboard/content-management' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
-                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <FaUsers /></span></p>
+                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <ImBlogger2 /></span></p>
                                 <span className="ms-3">Content Management</span>
                             </NavLink>
                         </li>
