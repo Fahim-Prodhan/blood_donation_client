@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import { AuthContext } from '../../provider/AuthProvider';
@@ -8,22 +7,16 @@ import useAxiosPublic from '../../hook/useAxiosPublic';
 import useLocationApi from '../../hook/useLocationApi';
 import Swal from 'sweetalert2';
 import { updateProfile } from 'firebase/auth';
+import useCurrentUser from '../../hook/useCurrentUser';
 
 const Profile = () => {
 
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     const { user,setReload } = useContext(AuthContext);
+    const {currentUser, refetch} = useCurrentUser()
 
-    const { refetch, data: currentUser } = useQuery({
-        queryKey: ['currentUser', user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/currentUsers?email=${user?.email}`);
-            return res.data;
-        }
-    });
 
-    console.log(currentUser);
 
 
     const {upazilas,districts} = useLocationApi()

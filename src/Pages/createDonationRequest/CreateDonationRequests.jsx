@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import { AuthContext } from '../../provider/AuthProvider';
-import { useQuery } from '@tanstack/react-query';
 import useLocationApi from '../../hook/useLocationApi';
 import { Helmet } from 'react-helmet';
 import { motion } from "framer-motion";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import useCurrentUser from '../../hook/useCurrentUser';
 
 
 
@@ -16,14 +16,10 @@ const CreateDonationRequests = () => {
     const { user } = useContext(AuthContext);
     console.log(user);
 
-    const { data: users } = useQuery({
-        queryKey: ['users', user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/currentUsers?email=${user?.email}`);
-            return res.data;
-        }
-    });
-    console.log(users);
+    const {currentUser} = useCurrentUser()
+
+
+
     const { upazilas, districts } = useLocationApi()
     const [bloodGroup, setBloodGroup] = useState('');
     const [district, selectDistrict] = useState('');
@@ -50,7 +46,7 @@ const CreateDonationRequests = () => {
         const requestMessage = form.message.value;
         const address = form.address.value;
 
-        if(users.IsActive === 'blocked'){
+        if(currentUser.IsActive === 'blocked'){
             Swal.fire({
                 icon: "error",
                 title: "Your can't create donation request",
@@ -111,13 +107,13 @@ const CreateDonationRequests = () => {
                                 <label className="label">
                                     <span className="label-text font-bold">Name</span>
                                 </label>
-                                <input value={users?.name} readOnly name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
+                                <input value={currentUser?.name} readOnly name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Email</span>
                                 </label>
-                                <input defaultValue={users?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
+                                <input defaultValue={currentUser?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">

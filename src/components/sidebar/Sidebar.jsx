@@ -10,13 +10,15 @@ import { AuthContext } from '../../provider/AuthProvider';
 import toast from 'react-hot-toast';
 import { BiDonateHeart } from 'react-icons/bi';
 import { IoIosLogOut } from 'react-icons/io';
+import useCurrentUser from '../../hook/useCurrentUser';
 
 const Sidebar = () => {
 
     const [sidebar, SetSidebar] = useState(false)
     const { logout } = useContext(AuthContext)
     const navigate = useNavigate()
-    const [active, setActive] = useState(false)
+    const [active] = useState(false)
+    const { currentUser } = useCurrentUser()
 
     const signOut = () => {
         logout()
@@ -74,25 +76,30 @@ const Sidebar = () => {
                                 <span className="ms-3">profile</span>
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink style={({ isActive }) => ({
-                                color: "#FF204E",
-                                background: isActive ? '#374151' : ''
-                            })} to='/dashboard/create-donation-request' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
-                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><MdOutlineCreateNewFolder /></span></p>
-                                <span className="ms-3">Create Donation Request</span>
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink style={({ isActive }) => ({
-                                color: "#FF204E",
-                                background: isActive ? '#374151' : ''
-                            })} to='/dashboard/my-donation-requests' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
-                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><BiDonateHeart /></span></p>
-                                <span className="ms-3">My Donation Requests</span>
-                            </NavLink>
-                        </li>
-                        <li>
+                        { currentUser?.role ==='donor' &&
+                            <li>
+                                <NavLink style={({ isActive }) => ({
+                                    color: "#FF204E",
+                                    background: isActive ? '#374151' : ''
+                                })} to='/dashboard/create-donation-request' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
+                                    <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><MdOutlineCreateNewFolder /></span></p>
+                                    <span className="ms-3">Create Donation Request</span>
+                                </NavLink>
+                            </li>
+                        }
+                        { currentUser?.role === 'donor' &&
+                            <li>
+                                <NavLink style={({ isActive }) => ({
+                                    color: "#FF204E",
+                                    background: isActive ? '#374151' : ''
+                                })} to='/dashboard/my-donation-requests' className="flex items-center p-2 rounded-lg  hover:bg-gray-700 group">
+                                    <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><BiDonateHeart /></span></p>
+                                    <span className="ms-3">My Donation Requests</span>
+                                </NavLink>
+                            </li>
+                        }
+                        {( currentUser?.role === 'admin') &&
+                            (<li>
                             <NavLink style={({ isActive }) => ({
                                 color: "#FF204E",
                                 background: isActive ? '#374151' : ''
@@ -100,8 +107,10 @@ const Sidebar = () => {
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' > <FaUsers /></span></p>
                                 <span className="ms-3">All Users</span>
                             </NavLink>
-                        </li>
-                        <li>
+                        </li>)
+                        }
+                        {( currentUser?.role === 'admin' || currentUser?.role === 'volunteer') && (
+                            <li>
                             <NavLink style={({ isActive }) => ({
                                 color: "#FF204E",
                                 background: isActive ? '#374151' : ''
@@ -110,7 +119,9 @@ const Sidebar = () => {
                                 <span className="ms-3">All Blood Donation Request</span>
                             </NavLink>
                         </li>
-                        <li>
+                        )}
+                        {( currentUser?.role === 'admin' || currentUser?.role === 'volunteer') &&(
+                            <li>
                             <NavLink style={({ isActive }) => ({
                                 color: "#FF204E",
                                 background: isActive ? '#374151' : ''
@@ -119,11 +130,12 @@ const Sidebar = () => {
                                 <span className="ms-3">Content Management</span>
                             </NavLink>
                         </li>
+                        )}
                     </ul>
 
                     <ul className='self-end md:space-x-6 lg:space-x-16'>
-                        
-                        <Link to='/'><button  className='btn bg-green-500 text-white'>< FaHome /> Home</button></Link>
+
+                        <Link to='/'><button className='btn bg-green-500 text-white'>< FaHome /> Home</button></Link>
                         <button onClick={signOut} className='btn btn-error text-white'>Logout <IoIosLogOut /></button>
                     </ul>
                 </div>

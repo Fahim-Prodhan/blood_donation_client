@@ -23,6 +23,7 @@ import BlogsDetails from "../Pages/blogsDetails/BlogsDetails";
 import SearchPage from "../Pages/searchPage/SearchPage";
 import Funding from "../Pages/Funding/Funding";
 import GiveFunding from "../Pages/Funding/GiveFunding/GiveFunding";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
         {
             path:'/funding',
             element:<Funding></Funding>,
+            loader:()=> fetch(`${mainUrl}/allFunding`)
         },
         {
             path:'/give-funding/:amount',
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
     },
     {
         path:'dashboard',
-        element:<Dashboard></Dashboard>,
+        element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children:[
             {
                 path:'',
