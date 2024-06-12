@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         },
         {
             path:'/donation-requests-details/:id',
-            element:<DonationReqDetails></DonationReqDetails>
+            element:<PrivateRoute><DonationReqDetails></DonationReqDetails></PrivateRoute>
         },
         {
             path:'/donation-requests',
@@ -66,12 +66,12 @@ const router = createBrowserRouter([
         },
         {
             path:'/funding',
-            element:<Funding></Funding>,
+            element:<PrivateRoute><Funding></Funding></PrivateRoute>,
             loader:()=> fetch(`${mainUrl}/allFunding`)
         },
         {
             path:'/give-funding/:amount',
-            element:<GiveFunding></GiveFunding>,
+            element:<PrivateRoute><GiveFunding></GiveFunding></PrivateRoute>,
         },
       ]
     },

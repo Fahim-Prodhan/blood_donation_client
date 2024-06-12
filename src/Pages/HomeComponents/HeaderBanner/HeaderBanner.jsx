@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -41,12 +42,16 @@ function HeaderBanner() {
           {/* This div is use for a overlay on background image */}
         </div>
 
-        <div className="px-6 lg:px-0 w-full md:space-y-4 text-center z-20 absolute top-[45%] left-1/2 text-white -translate-x-1/2 -translate-y-1/2">
-          <h1 className="animate__animated animate__fadeInDown text-2xl lg:text-5xl lg:font-black font-bold pt-4">Join as a donor</h1>
-          <p className="animate__animated animate__fadeInDown md:text-xl pt-4 pb-2 lg:pb-6"> Donate blood, save lives. Be a hero today!</p>
+        <div className="space-x-4 px-6 lg:px-0 w-full md:space-y-4 text-center z-20 absolute top-[45%] left-1/2 text-white -translate-x-1/2 -translate-y-1/2">
+          <h1 className="animate__animated animate__fadeInDown text-2xl lg:text-5xl lg:font-black font-bold pt-4">Donate blood, save lives</h1>
+          <p className="animate__animated animate__fadeInDown md:text-xl pt-4 pb-2 lg:pb-6">Your blood is precious: Donate, save a life, make a difference.</p>
+          <Link to='/register'>
+            <button className="bg-green-500 md:text-xl font-semibold btn text-white border-none hover:bg-green-600 px-12">Join As Donors</button>
+          </Link>
           <Link to='/search'>
             <button className="bg-[#FF204E] md:text-xl font-semibold btn text-white border-none hover:bg-red-600 px-12">Search Donors</button>
           </Link>
+
         </div>
 
       </div>
