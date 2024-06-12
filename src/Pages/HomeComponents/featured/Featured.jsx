@@ -28,7 +28,7 @@ const Featured = () => {
                     <figure><img src={img3} alt="car!" /></figure>
                     <div className="mx-8 mb-8">
                         <h2 className="card-title py-4">Success Stories</h2>
-                        <p>Share interesting and important facts about blood donation. This could include statistics about blood needs, the impact of donations, and dispelling common myths about donating blood.</p>           
+                        <p> Share inspiring stories of people whose lives were saved through blood donations. Include pictures and testimonials from recipients and donors to make the stories more relatable and impactful.</p>           
                     </div>
                 </div>
             </div>
