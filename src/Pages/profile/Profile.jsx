@@ -55,6 +55,7 @@ const Profile = () => {
                           });
                           refetch()
                           setEdit(!edit)
+                          form.reset()
                     }
                 })
         } else {
@@ -85,6 +86,7 @@ const Profile = () => {
                               });
                               refetch()
                               setEdit(!edit)
+                          form.reset()
                         }
                        
                     })

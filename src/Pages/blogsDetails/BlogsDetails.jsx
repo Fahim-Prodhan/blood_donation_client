@@ -24,7 +24,7 @@ const BlogsDetails = () => {
     }
 
     return (
-        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
+        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12 pb-12'>
             {blog.image && <img className='mx-auto mt-4' src={blog.image} alt={blog.title} />}
             <h1 className='text-4xl text-center font-bold py-8 text-[#FF204E]'>{blog.title}</h1>
             {blog.content ? <p>{parse(blog.content)}</p> : <p>No content available.</p>}

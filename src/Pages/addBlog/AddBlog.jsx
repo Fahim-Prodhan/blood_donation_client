@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import JoditEditor from 'jodit-react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import Swal from 'sweetalert2'
+import useAxiosPublic from '../../hook/useAxiosPublic';
 
 
 
@@ -13,6 +14,7 @@ const AddBlog = ({ placeholder }) => {
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
 
     const config = useMemo(() => ({
         readonly: false,
@@ -27,7 +29,7 @@ const AddBlog = ({ placeholder }) => {
         const title = form.title.value;
         const fileInput = form.fileInput;
         const file = fileInput.files[0];
-        const res = await axiosSecure.post(image_hosting_api, { image: file }, {
+        const res = await axiosPublic.post(image_hosting_api, { image: file }, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

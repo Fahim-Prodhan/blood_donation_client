@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
-import { AuthContext } from '../../provider/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import useLocationApi from '../../hook/useLocationApi';
 import { Helmet } from 'react-helmet';
@@ -9,19 +8,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { useParams } from 'react-router-dom';
+import useCurrentUser from '../../hook/useCurrentUser';
 
 const UpdateDonationRequest = () => {
     const axiosSecure = useAxiosSecure();
-    const { user } = useContext(AuthContext);
+    // const { user } = useContext(AuthContext);
     const { id } = useParams();
 
-    const { data: users } = useQuery({
-        queryKey: ['users', user?.email],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/users?email=${user?.email}`);
-            return res.data[0];
-        }
-    });
+    const {currentUser} = useCurrentUser()
 
     const { data: donationReq,refetch } = useQuery({
         queryKey: ['donationById', id],
@@ -118,13 +112,13 @@ const UpdateDonationRequest = () => {
                                 <label className="label">
                                     <span className="label-text font-bold">Name</span>
                                 </label>
-                                <input value={users?.name} readOnly name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
+                                <input value={currentUser?.name} readOnly name="name" type="text" placeholder="Enter name" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text font-bold">Email</span>
                                 </label>
-                                <input defaultValue={users?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
+                                <input defaultValue={currentUser?.email} readOnly name="email" type="email" placeholder="Enter email" className="input input-bordered" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">

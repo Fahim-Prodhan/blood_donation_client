@@ -1,16 +1,17 @@
 
-import useAxiosPublic from './useAxiosPublic';
+
 import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from './useAxiosSecure';
 
 const useGetBlogs = ({status}) => {
 
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     console.log(status);
 
     const {refetch, data: blogs = [] } = useQuery({
         queryKey: ['blogs',status],
         queryFn: async () => {
-            const res = await axiosPublic.get(`/posts?status=${status}`)
+            const res = await axiosSecure.get(`/posts?status=${status}`)
             return res.data
         }
     })

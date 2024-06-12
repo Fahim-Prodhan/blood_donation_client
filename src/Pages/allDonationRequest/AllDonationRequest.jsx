@@ -77,7 +77,7 @@ const AllDonationRequest = () => {
                 confirmButtonText: "Yes, Change it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axiosSecure.patch(`/my-donation-request/updateStatus/${id}`,{status:'pending'})
+                    axiosSecure.patch(`/donation-request/updateStatus/${id}`,{status:'pending'})
                         .then(res => {
                             if (res.data.modifiedCount > 0) {
                                 Swal.fire({
@@ -102,7 +102,7 @@ const AllDonationRequest = () => {
                 confirmButtonText: "Yes, Change it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axiosSecure.patch(`/my-donation-request/updateStatus/${id}`,{status:'inprogress'})
+                    axiosSecure.patch(`/donation-request/updateStatus/${id}`,{status:'inprogress'})
                         .then(res => {
                             if (res.data.modifiedCount > 0) {
                                 Swal.fire({
@@ -127,7 +127,7 @@ const AllDonationRequest = () => {
                 confirmButtonText: "Yes, Change it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axiosSecure.patch(`/my-donation-request/updateStatus/${id}`,{status:'canceled'})
+                    axiosSecure.patch(`/donation-request/updateStatus/${id}`,{status:'canceled'})
                         .then(res => {
                             if (res.data.modifiedCount > 0) {
                                 Swal.fire({
@@ -152,7 +152,7 @@ const AllDonationRequest = () => {
                 confirmButtonText: "Yes, Change it!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axiosSecure.patch(`/my-donation-request/updateStatus/${id}`,{status:'done'})
+                    axiosSecure.patch(`/donation-request/updateStatus/${id}`,{status:'done'})
                         .then(res => {
                             if (res.data.modifiedCount > 0) {
                                 Swal.fire({

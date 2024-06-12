@@ -1,14 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { BiDonateHeart } from 'react-icons/bi';
-import { IoMdAddCircle } from 'react-icons/io';
-import { Link, useLoaderData, useNavigate } from 'react-router-dom';
-import useAxiosPublic from '../../hook/useAxiosPublic';
+import { useNavigate } from 'react-router-dom';
+import useAxiosSecure from '../../hook/useAxiosSecure';
+
 
 const Funding = () => {
 
     const [amount, setAmount] = useState(0)
     const navigate = useNavigate()
+    const axiosSecure = useAxiosSecure()
+    const [fundings, setFundings] = useState([])
+    const [itemsPerPage] = useState(2);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(1);
+
+   
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -16,8 +23,29 @@ const Funding = () => {
         navigate(`/give-funding/${amount}`)
     }
 
-    const fundings  = useLoaderData()
-    console.log(fundings);
+    useEffect(() => {
+        axiosSecure.get(`/allFunding?page=${currentPage - 1}&size=${itemsPerPage}`)
+            .then(res => {
+                setFundings(res.data.allFunds)
+                setTotalCount(res.data.totalCount)
+            })
+    }, [axiosSecure, currentPage, itemsPerPage])
+
+    const numberOfPages = Math.ceil(totalCount / itemsPerPage);
+    const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
+
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < pages.length) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     return (
         <div className='mx-12'>
@@ -48,7 +76,7 @@ const Funding = () => {
                         {/* row 1 */}
 
                         {
-                            fundings.map((f,index) =>
+                            fundings.map((f, index) =>
                                 <tr key={f._id}>
                                     <th>{index + 1}</th>
                                     <td>{f?.name}</td>
@@ -60,6 +88,19 @@ const Funding = () => {
 
                     </tbody>
                 </table>
+            </div>
+
+            <div className='flex justify-center mt-12 gap-4'>
+                <button onClick={handlePrev} className="btn">Prev</button>
+                {pages.map(page => (
+                    <button
+                        onClick={() => setCurrentPage(page)}
+                        className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
+                        key={page}>
+                        {page}
+                    </button>
+                ))}
+                <button onClick={handleNext} className="btn">Next</button>
             </div>
         </div>
     );

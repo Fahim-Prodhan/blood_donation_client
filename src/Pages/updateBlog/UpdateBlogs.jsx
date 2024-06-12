@@ -4,6 +4,7 @@ import useAxiosSecure from '../../hook/useAxiosSecure';
 import Swal from 'sweetalert2'
 import useGetSingleBlog from '../../hook/useGetSingleBlog';
 import { useParams } from 'react-router-dom';
+import useAxiosPublic from '../../hook/useAxiosPublic';
 
 
 
@@ -17,6 +18,7 @@ const UpdateBlogs = ({ placeholder }) => {
     const editor = useRef(null);
     const [content, setContent] = useState(blog?.content);
     const axiosSecure = useAxiosSecure()
+    const axiosPublic = useAxiosPublic()
 
     useEffect(()=>{
         setContent(blog?.content)
@@ -56,7 +58,7 @@ const UpdateBlogs = ({ placeholder }) => {
                 }
             })
         }else{
-            const res = await axiosSecure.post(image_hosting_api, { image: file }, {
+            const res = await axiosPublic.post(image_hosting_api, { image: file }, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

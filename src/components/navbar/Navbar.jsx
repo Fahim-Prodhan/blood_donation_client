@@ -126,7 +126,7 @@ const Navbar = () => {
                 className={`flex items-center space-x-3 gap-4`}
               >
 
-                <div className="dropdown z-20">
+                <div className="dropdown z-50 dropdown-bottom dropdown-end">
                   <div tabIndex={0} role="button" className="m-1">
                     <div className="tooltip tooltip-left avatar cursor-pointer" data-tooltip-id="my-tooltip" data-tooltip-content={''}>
                       <div className="w-12 rounded-full">
@@ -137,7 +137,7 @@ const Navbar = () => {
                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                     <li><Link to = '/dashboard'>Dashboard</Link></li>
                     <li>
-                      <Link className="hidden md:flex"
+                      <Link className="md:flex"
                         onClick={() => signOut()}>
                         <button type="button" className="text-white bg-[#FF6D60] hover:bg-[#ff988f] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center">Logout</button>
                       </Link></li>
@@ -227,23 +227,7 @@ const Navbar = () => {
 
             </div>
           }
-          {
-            user && <div className={`md:hidden flex gap-4 mt-6`}>
-              <Link
-                onClick={() => {
-                  handleHamburger();
-                }}
-
-              >
-                <button
-                  type="button"
-                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
-                >
-                  Logout
-                </button>
-              </Link>
-            </div>
-          }
+          
 
         </div>
 

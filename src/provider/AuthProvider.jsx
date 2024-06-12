@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import auth from "../firebase/firebase.config";
 import toast from "react-hot-toast";
-
-
-
+import useAxiosPublic from "../hook/useAxiosPublic";
 
 
 export const AuthContext = createContext(null);
@@ -15,6 +13,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true)
     const [reload, setReload] = useState(false)
+    const axiosPublic = useAxiosPublic();
 
 
     const createUser = (email, password) => {
@@ -72,23 +71,20 @@ const AuthProvider = ({ children }) => {
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, currentUser=>{
-            // const userEmail = currentUser?.email || user?.email
-            // const loggedUser = { email: userEmail }
             setUser(currentUser)
-            console.log(currentUser);
+            if(currentUser){
+                const userInfo = {email: currentUser.email}
+                axiosPublic.post('/jwt', userInfo)
+                .then(res=>{
+                    if(res.data.token){
+                        localStorage.setItem('access-token', res.data.token)
+                    }
+                })
+            }else{
+                localStorage.removeItem('access-token');
+            }
             setLoading(false)
-            //if current user exit
-            // if (currentUser) {
-            //     axios.post(`${baseUrl}/jwt`, loggedUser, { withCredentials: true })
-            //         .then(res => {
-            //             console.log(res.data);
-            //         })
-            // } else {
-            //     axios.post(`${baseUrl}/logout`, loggedUser, { withCredentials: true })
-            //     .then(res => {
-            //         console.log(res.data);
-            //     })
-            // }
+      
         })
 
         return ()=>{
