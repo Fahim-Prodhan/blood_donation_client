@@ -1,10 +1,5 @@
 # BloodBridge
 
-##  Assignment ID/Variant:  assignment12_category_0001
-
-## admin email: fahimprodhan0@gmail.com
-## admin Password: 1234aS
-
 ## Live Site
 [Visit BloodBridge](https://blood-donation-e615e.web.app)
 
