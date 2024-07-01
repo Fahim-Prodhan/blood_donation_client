@@ -3,6 +3,15 @@
 ## Live Site
 [Visit BloodBridge](https://blood-donation-e615e.web.app)
 
+# Project Overview
+This project is a blood donation and acceptance platform designed to facilitate the process of blood donation. It allows donors to register and donate blood, enables individuals to search for donors, and provides roles for administrators and volunteers to manage and support the platform. By leveraging this application, we aim to contribute to saving lives by efficiently managing the blood donation process and providing timely assistance to those in need.
+
+## Technologies
+- **Frontend**: HTML, CSS, JavaScript (React.js)
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: JSON Web Tokens (JWT)
+- **Deployment**: Firebase
 
 ## Key Features
 
