@@ -15,7 +15,7 @@ This project is a blood donation and acceptance platform designed to facilitate 
 - **Search and Filter Functionality:** Users can search for blood donors based on blood group, district, and upazila. The system provides filtering options for donation requests and user management, improving data accessibility.
 
 ## Technologies
-- **Frontend**: HTML, CSS, JavaScript (React.js)
+- **Frontend**: HTML, TailwindCSS, JavaScript (React.js)
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JSON Web Tokens (JWT)
